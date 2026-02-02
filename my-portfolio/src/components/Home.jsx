@@ -3,7 +3,7 @@ import Icons from "./Icons";
 import PersonInformation from "./PersonInformation";
 import Title from "./utils/Title";
 import CustomButton from "./utils/CustomButton";
-import TechStack from "./TechStack";
+import SubTitle from "./utils/SubTitle";
 
 const Home = () => {
   return (
@@ -15,9 +15,14 @@ const Home = () => {
           
           {/* Profile Image with Gradient Border */}
           <div className="relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-500"></div>
+            {/* Gradient border */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-blue-600 
+                          rounded-full blur opacity-75 group-hover:opacity-100 
+                          transition duration-500" />
+            
             <div
-              className="relative w-64 h-64 rounded-full bg-cover bg-center shadow-2xl ring-4 ring-slate-800"
+              className="relative w-64 h-64 rounded-full bg-cover bg-center shadow-2xl ring-4 ring-slate-800
+                       group-hover:scale-105 transition-transform duration-500"
               style={{ backgroundImage: "url('/profile-photo.png')" }}
             />
           </div>
@@ -30,31 +35,40 @@ const Home = () => {
         </div>
 
         {/* RIGHT COLUMN */}
-        <div className="max-w-[80%] text-center lg:text-left">
+        <div className="max-w-[80%] text-center lg:text-left space-y-6">
+          {/* Heading */}
           <h1 className="text-5xl lg:text-6xl font-bold text-slate-100 leading-tight">
-            Hi, I'm <Title>Kiruthik</Title>
+            Hi, I'm{" "}
+            <span className="inline-block bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 
+                           bg-clip-text text-transparent">
+              Kiruthik
+            </span>
           </h1>
 
-          <p className="mt-6 text-2xl text-slate-300 leading-relaxed">
-            I am a passionate and detail-oriented software developer with a strong foundation in full-stack development and a growing specialization in Machine Learning and Artificial Intelligence. 
+          {/* First paragraph */}
+          <p className="text-2xl text-slate-300 leading-relaxed">
+            I am a passionate and detail-oriented software developer
+            with a strong foundation in full-stack development and a growing specialization in Machine Learning and Artificial Intelligence.
           </p>
 
-          <p className="mt-6 text-2xl text-slate-300 leading-relaxed">
-I enjoy building systems that solve real-world problems, combining clean software engineering practices with data-driven intelligence.
+          {/* Second paragraph */}
+          <p className="text-2xl text-slate-300 leading-relaxed">
+            I enjoy building systems that solve real-world problems, combining clean software 
+            engineering practices with data-driven intelligence.
           </p>
 
+          {/* Buttons */}
           <div className="mt-8 flex gap-4 justify-center lg:justify-start">
-            <CustomButton>projects</CustomButton>
-            <CustomButton>Download CV</CustomButton>
+            <CustomButton>Projects</CustomButton>
+            <CustomButton variant="secondary">Download CV</CustomButton>
           </div>
         </div>
 
-      </div>
-      <div className="px-8">
-        <TechStack/>
       </div>
     </section>
   );
 };
 
 export default Home;
+
+

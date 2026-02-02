@@ -1,16 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 
-const HideOnOutOfView = ({ children, className = "" }) => {
+const HideOnOutOfView = ({ children, className = "", delay = 0 }) => {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setIsVisible(true);
+          }, delay);
+        }
       },
       {
-        threshold: 0.2, // visible when 10% appears
+        threshold: 0.15, // Trigger when 15% is visible
+        rootMargin: "0px 0px -50px 0px", // Trigger slightly before element enters viewport
       }
     );
 
@@ -19,15 +24,21 @@ const HideOnOutOfView = ({ children, className = "" }) => {
     return () => {
       if (ref.current) observer.unobserve(ref.current);
     };
-  }, []);
+  }, [delay]);
 
   return (
     <div
       ref={ref}
-      className={`transition-all duration-900 ease-in-out
-        ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}
+      className={`transition-all duration-700 ease-out
+        ${isVisible 
+          ? "opacity-100 translate-y-0 scale-100" 
+          : "opacity-0 translate-y-8 scale-95"
+        }
         ${className}
       `}
+      style={{
+        transitionTimingFunction: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+      }}
     >
       {children}
     </div>
@@ -35,3 +46,4 @@ const HideOnOutOfView = ({ children, className = "" }) => {
 };
 
 export default HideOnOutOfView;
+
