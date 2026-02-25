@@ -110,6 +110,14 @@ const Projects = () => {
       liveUrl: "https://project1.demo.com"
     },
     {
+      name: "Bug Tracker App",
+      description: "bug tracker description",
+      image: "/bug_tracker.png", 
+      technologies: ["React vite.js", "SpringBoot", "MySQL", "Tailwindcss"],
+      githubUrl: "https://github.com/kiruthik5000/BugTracker",
+      liveUrl: "https://project3.demo.com"
+    },
+    {
       name: "Dine Directory",
       description: "dine directory description",
       image: "/dine_directory.png", // Add your project screenshot path
@@ -123,7 +131,7 @@ const Projects = () => {
       image: "/food_image.png", // No image - will show placeholder
       technologies: ["Python", "Scikit-learn", "Pandas", "NumPy", "Transfer Learning", "Tensorflow"],
       githubUrl: "https://github.com/kiruthik5000/FoodImageClassification",
-      liveUrl: ""
+      liveUrl: "https://project5.demo.com"
     },
     {
       name: "Tetris Game",
