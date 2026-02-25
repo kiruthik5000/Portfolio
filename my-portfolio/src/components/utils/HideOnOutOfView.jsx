@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const HideOnOutOfView = ({ children, className = "", delay = 0 }) => {
+const HideOnOutOfView = ({ children, className = "", delay = 0, direction = "up" }) => {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -14,8 +14,8 @@ const HideOnOutOfView = ({ children, className = "", delay = 0 }) => {
         }
       },
       {
-        threshold: 0.15, // Trigger when 15% is visible
-        rootMargin: "0px 0px -50px 0px", // Trigger slightly before element enters viewport
+        threshold: 0.1,
+        rootMargin: "0px 0px -40px 0px",
       }
     );
 
@@ -26,18 +26,24 @@ const HideOnOutOfView = ({ children, className = "", delay = 0 }) => {
     };
   }, [delay]);
 
+  const directionClasses = {
+    up: isVisible ? "translate-y-0" : "translate-y-6",
+    down: isVisible ? "translate-y-0" : "-translate-y-6",
+    left: isVisible ? "translate-x-0" : "-translate-x-6",
+    right: isVisible ? "translate-x-0" : "translate-x-6",
+    fade: "", // no translate, just opacity
+  };
+
   return (
     <div
       ref={ref}
       className={`transition-all duration-700 ease-out
-        ${isVisible 
-          ? "opacity-100 translate-y-0 scale-100" 
-          : "opacity-0 translate-y-8 scale-95"
-        }
+        ${isVisible ? "opacity-100" : "opacity-0"}
+        ${directionClasses[direction] || directionClasses.up}
         ${className}
       `}
       style={{
-        transitionTimingFunction: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
       }}
     >
       {children}
@@ -46,4 +52,3 @@ const HideOnOutOfView = ({ children, className = "", delay = 0 }) => {
 };
 
 export default HideOnOutOfView;
-

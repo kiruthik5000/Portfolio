@@ -1,6 +1,7 @@
 import React from "react";
 import Title from "./utils/Title";
 import SubTitle from "./utils/SubTitle";
+import HideOnOutOfView from "./utils/HideOnOutOfView";
 import {
   FaCertificate,
   FaCode,
@@ -15,10 +16,14 @@ const AboutMe = () => {
 
   const Card = ({ children, className = "" }) => (
     <div
-      className={`group relative bg-slate-900/60 border border-slate-800 rounded-2xl p-6 
-                  hover:border-slate-700 transition-all duration-300 hover:shadow-xl 
-                  hover:shadow-cyan-500/10 ${className}`}
+      className={`group relative bg-slate-900/50 border border-slate-800/60 rounded-2xl p-6
+                  hover:border-slate-700/80 transition-all duration-500
+                  hover:shadow-xl hover:shadow-blue-500/5 ${className}`}
     >
+      {/* Left accent bar that glows on hover */}
+      <div className="absolute left-0 top-6 bottom-6 w-0.5 bg-slate-800 rounded-full
+                    group-hover:bg-gradient-to-b group-hover:from-blue-400 group-hover:to-cyan-400
+                    transition-all duration-500" />
       {children}
     </div>
   );
@@ -26,12 +31,12 @@ const AboutMe = () => {
   const TagList = ({ items }) => {
     return (
       <div className="flex flex-wrap gap-2">
-        {items.map((item, index) => (
+        {items.map((item) => (
           <span
             key={item}
-            className="px-3 py-1 text-sm rounded-full bg-slate-800 text-slate-300 border border-slate-700
-                      transition-all duration-300 cursor-pointer hover:scale-105
-                      hover:bg-blue-500/20 hover:text-blue-300 hover:border-blue-500/50"
+            className="px-3 py-1 text-sm rounded-full bg-slate-800/60 text-slate-400 border border-slate-700/50
+                      transition-all duration-300 cursor-default
+                      hover:bg-blue-500/10 hover:text-blue-300 hover:border-blue-500/30"
           >
             {item}
           </span>
@@ -40,32 +45,34 @@ const AboutMe = () => {
     );
   };
 
-  const EducationCard = ({ education }) => (
-    <Card className="flex gap-8 items-start w-full hover:scale-[1.01] transition-transform duration-300">
-      {/* Icon */}
-      <div className="py-4 text-4xl text-blue-400">{education.icon}</div>
+  const EducationCard = ({ education, index }) => (
+    <HideOnOutOfView delay={index * 120} direction="up">
+      <Card className="flex gap-8 items-start w-full hover:translate-x-1 transition-transform duration-500">
+        {/* Icon */}
+        <div className="py-4 text-3xl text-blue-400/80">{education.icon}</div>
 
-      <div className="flex-1">
-        <SubTitle>{education.title}</SubTitle>
-        <p className="text-slate-400 mt-1">{education.institute}</p>
-        <p className="text-slate-500 text-sm mt-2">{education.description}</p>
-        <div className="inline-flex gap-2 justify-center items-center p-2 mt-2">
-          <div className="w-2 h-2 bg-blue-500 rounded-full" />
-          <span className="text-slate-400 font-medium">
-            {education.percentage}:
-          </span>
-          <span className="text-blue-400 font-semibold">{education.value}</span>
+        <div className="flex-1">
+          <SubTitle>{education.title}</SubTitle>
+          <p className="text-slate-400 mt-1 text-sm">{education.institute}</p>
+          <p className="text-slate-500 text-sm mt-2">{education.description}</p>
+          <div className="inline-flex gap-2 justify-center items-center p-2 mt-2">
+            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+            <span className="text-slate-400 font-medium text-sm">
+              {education.percentage}:
+            </span>
+            <span className="text-blue-400 font-semibold">{education.value}</span>
+          </div>
         </div>
-      </div>
 
-      <span
-        className="text-sm font-semibold uppercase tracking-wider 
-                     text-blue-400 bg-blue-400/5 border border-blue-800/50 px-3 py-1 rounded-full
-                     whitespace-nowrap"
-      >
-        {education.period}
-      </span>
-    </Card>
+        <span
+          className="text-xs font-semibold uppercase tracking-wider
+                       text-blue-400/80 bg-blue-400/5 border border-blue-800/30 px-3 py-1 rounded-full
+                       whitespace-nowrap"
+        >
+          {education.period}
+        </span>
+      </Card>
+    </HideOnOutOfView>
   );
 
   /* ===================== DATA ===================== */
@@ -79,26 +86,26 @@ const AboutMe = () => {
         "Relevant coursework: Data Structures & Algorithms, Machine Learning, Artificial Intelligence, DBMS, Operating Systems",
       period: "2023–2027",
       percentage: "CGPA",
-      value: "8.39",
+      value: "8.41",
       icon: <FaGraduationCap />,
     },
     {
       title: "Senior Secondary (Class XII)",
-      institute: "Mani Matriculation Higher Secondary Scholl, Thanjavur",
+      institute: "Mani Matriculation Higher Secondary School, Thanjavur",
       description:
-        "Compeleted My secondary education with Computer Science and Mathematics",
+        "Completed secondary education with Computer Science and Mathematics",
       period: "2022-2023",
-      percentage: "percentage",
-      value: "89.5 %",
+      percentage: "Percentage",
+      value: "89.5%",
       icon: <FaUniversity />,
     },
     {
       title: "Secondary (Class X)",
-      institute: "Mani Matriculation Higher Secondary Scholl, Thanjavur",
-      description: "Compeleted My Secondary education",
+      institute: "Mani Matriculation Higher Secondary School, Thanjavur",
+      description: "Completed secondary education",
       period: "2021-2022",
-      percentage: "percentage",
-      value: "95.9 %",
+      percentage: "Percentage",
+      value: "95.9%",
       icon: <FaSchool />,
     },
   ];
@@ -126,7 +133,7 @@ const AboutMe = () => {
         "Scikit-learn",
         "TensorFlow",
         "Keras",
-        "spring-boot",
+        "Spring Boot",
       ],
     },
     {
@@ -138,7 +145,7 @@ const AboutMe = () => {
         "REST APIs",
         "IntelliJ",
         "VS Code",
-        "linux",
+        "Linux",
       ],
     },
   ];
@@ -160,7 +167,7 @@ const AboutMe = () => {
             LeetCode
           </a>{" "}
           problems and also solved many questions in other platforms like
-          Hackerrank ans so on.
+          HackerRank and so on.
         </>
       ),
       period: "2023 – Present",
@@ -168,7 +175,6 @@ const AboutMe = () => {
     {
       title: "Hackathons & Coding Competitions",
       icon: <FaCode />,
-
       content: (
         <>
           Competed in several{" "}
@@ -179,22 +185,23 @@ const AboutMe = () => {
           performance in high-pressure environments.
         </>
       ),
-      period: "2023-2026"
+      period: "2023-2026",
     },
     {
       title: "Certifications",
-      icon: <FaCertificate/>,
+      icon: <FaCertificate />,
       content: (
-          <>
-          Completed numerous courses and obtained Certificates in leading platforms like{" "}
-          <span className="font-semibold text-blue-400"> Google-colud platform, Infosys, NPTEL 
-            </span> 
-             {" "} obtaining skills in various fields
-          </>
-          
+        <>
+          Completed numerous courses and obtained certificates on leading
+          platforms like{" "}
+          <span className="font-semibold text-blue-400">
+            Google Cloud Platform, Infosys, NPTEL
+          </span>{" "}
+          obtaining skills in various fields.
+        </>
       ),
-      period: "Ongoing"
-    }
+      period: "Ongoing",
+    },
   ];
 
   /* ===================== RENDER ===================== */
@@ -204,69 +211,70 @@ const AboutMe = () => {
       id="about"
       className="min-h-screen text-slate-200 px-6 py-16 flex justify-center"
     >
-      <div className="max-w-5xl w-full space-y-12">
+      <div className="max-w-5xl w-full space-y-16">
         {/* ================= Education ================= */}
-        <div className="space-y-4">
+        <div className="space-y-5">
           <Title>Education</Title>
           {education.map((item, index) => (
-            <EducationCard key={index} education={item} />
+            <EducationCard key={index} education={item} index={index} />
           ))}
         </div>
 
         {/* ================= Skills ================= */}
-        <div className="space-y-4">
+        <div className="space-y-5">
           <Title>Skills</Title>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {skills.map((skill, index) => (
-              <Card
-                key={skill.title}
-                className="hover:scale-[1.02] transition-transform duration-300"
-              >
-                <div className="flex gap-3 items-center mb-4">
-                  <div className="w-1 h-6 bg-blue-500 rounded-full" />
-                  <SubTitle>{skill.title}</SubTitle>
-                </div>
-                <TagList items={skill.items} />
-              </Card>
+              <HideOnOutOfView key={skill.title} delay={index * 100} direction="up">
+                <Card className="hover:translate-y-[-2px] transition-transform duration-500">
+                  <div className="flex gap-3 items-center mb-4 pl-3">
+                    <SubTitle>{skill.title}</SubTitle>
+                  </div>
+                  <div className="pl-3">
+                    <TagList items={skill.items} />
+                  </div>
+                </Card>
+              </HideOnOutOfView>
             ))}
           </div>
         </div>
 
         {/* ================= Achievements ================= */}
-        <div className="space-y-4">
+        <div className="space-y-5">
           <Title>Achievements</Title>
 
           <div className="grid grid-cols-1 gap-6">
             {achievements.map((item, index) => (
-              <Card
-                key={index}
-                className="flex items-start justify-between gap-6
-                   hover:scale-[1.01] transition-transform duration-300"
-              >
-                {/* Left: Icon + Content */}
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-xl bg-blue-500/10 text-blue-400 text-2xl">
-                    {item.icon}
-                  </div>
-
-                  <div className="px-4">
-                    <SubTitle>{item.title}</SubTitle>
-                    <p className="text-slate-400 leading-relaxed">
-                      {item.content}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Right: Period */}
-                <span
-                  className="text-sm font-semibold uppercase tracking-wide
-                     text-blue-400 bg-blue-400/5 border border-blue-800/50
-                     px-3 py-1 rounded-full whitespace-nowrap"
+              <HideOnOutOfView key={index} delay={index * 120} direction="up">
+                <Card
+                  className="flex items-start justify-between gap-6
+                     hover:translate-y-[-2px] transition-transform duration-500"
                 >
-                  {item.period}
-                </span>
-              </Card>
+                  {/* Left: Icon + Content */}
+                  <div className="flex items-start gap-4 pl-3">
+                    <div className="p-3 rounded-xl bg-blue-500/10 text-blue-400/80 text-xl shrink-0">
+                      {item.icon}
+                    </div>
+
+                    <div>
+                      <SubTitle>{item.title}</SubTitle>
+                      <p className="text-slate-400 leading-relaxed text-sm mt-1">
+                        {item.content}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Right: Period */}
+                  <span
+                    className="text-xs font-semibold uppercase tracking-wide
+                       text-blue-400/80 bg-blue-400/5 border border-blue-800/30
+                       px-3 py-1 rounded-full whitespace-nowrap shrink-0"
+                  >
+                    {item.period}
+                  </span>
+                </Card>
+              </HideOnOutOfView>
             ))}
           </div>
         </div>
