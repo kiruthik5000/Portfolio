@@ -1,186 +1,200 @@
 import React from 'react';
 import Title from './utils/Title';
 import HideOnOutOfView from './utils/HideOnOutOfView';
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+import { FiGithub, FiExternalLink } from 'react-icons/fi';
+import {
+  SiReact, SiSpring, SiMysql,
+  SiTailwindcss, SiExpress, SiMongodb,
+  SiNodedotjs, SiPython, SiTensorflow,
+  SiScikitlearn,
+} from 'react-icons/si';
 
-const Projects = () => {
-  /* ===================== REUSABLE PROJECT CARD COMPONENT ===================== */
-  const ProjectCard = ({ project, index }) => {
-    return (
-      <HideOnOutOfView delay={index * 120} direction="up">
-        <div className="group relative bg-slate-900/50 border border-slate-800/60 rounded-2xl overflow-hidden
-                      hover:border-slate-700/80 transition-all duration-500
-                      hover:shadow-xl hover:shadow-blue-500/5
-                      hover:translate-y-[-3px]"
-          style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
-        >
+/* Map tech name → icon */
+const TECH_ICONS = {
+  "React":              <SiReact       size={11} />,
+  "React Vite":         <SiReact       size={11} />,
+  "Spring Boot":        <SiSpring      size={11} />,
+  "MySQL":              <SiMysql       size={11} />,
+  "Tailwind CSS":       <SiTailwindcss size={11} />,
+  "Express.js":         <SiExpress     size={11} />,
+  "MongoDB":            <SiMongodb     size={11} />,
+  "Node.js":            <SiNodedotjs   size={11} />,
+  "Python":             <SiPython      size={11} />,
+  "TensorFlow":         <SiTensorflow  size={11} />,
+  "Scikit-learn":       <SiScikitlearn size={11} />,
 
-          {/* Screenshot/Image Section */}
-          <div className="relative h-56 overflow-hidden bg-slate-800/50">
-            {project.image ? (
-              <img
-                src={project.image}
-                alt={project.name}
-                className="w-full h-full object-cover transition-transform duration-700
-                         group-hover:scale-105"
-                style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
-                <div className="text-slate-700 text-5xl">
-                  <FaGithub />
-                </div>
-              </div>
-            )}
+};
 
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent
-                          opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+const projects = [
+  {
+    name:        "Blog Post Management",
+    emoji:       "📝",
+    description: "Full-stack blog system with CRUD, auth, and responsive interface.",
+    image:       "/blog_post.png",
+    technologies: ["React", "Spring Boot", "MySQL"],
+    githubUrl:   "https://github.com/iamneo-production/d2cc9c72-613d-4bc8-9a7e-2e30e920eaa7-a130de1c-fce0-4d3b-9c68-315265bea755/tree/SRC-Branch",
+    liveUrl:     null,
+  },
+  {
+    name:        "Bug Tracker App",
+    emoji:       "🐛",
+    description: "Role-based bug tracker with real-time status updates and project boards.",
+    image:       "/bug_tracker.png",
+    technologies: ["React Vite", "Spring Boot", "MySQL", "Tailwind CSS"],
+    githubUrl:   "https://github.com/kiruthik5000/BugTracker",
+    liveUrl:     null,
+  },
+  {
+    name:        "Dine Directory",
+    emoji:       "🍽️",
+    description: "Restaurant discovery platform — search, filter, and book with MERN stack.",
+    image:       "/dine_directory.png",
+    technologies: ["React", "Express.js", "MongoDB", "Node.js"],
+    githubUrl:   "https://github.com/kiruthik5000/DineDirectory",
+    liveUrl:     null,
+  },
+  {
+    name:        "Food Image Classifier",
+    emoji:       "🍱",
+    description: "Deep learning CNN classifier trained with transfer learning for food recognition.",
+    image:       "/food_image.png",
+    technologies: ["Python", "TensorFlow", "Scikit-learn"],
+    githubUrl:   "https://github.com/kiruthik5000/FoodImageClassification",
+    liveUrl:     null,
+  },
+  {
+    name:        "Tetris Game",
+    emoji:       "🎮",
+    description: "Classic Tetris with smooth animations, score tracking, and increasing difficulty.",
+    image:       "/tetris.png",
+    technologies: ["Python"],
+    githubUrl:   "https://github.com/kiruthik5000/Notepad",
+    liveUrl:     null,
+  },
+  {
+    name:        "Custom RAG Chatbot",
+    emoji:       "🤖",
+    description: "Retrieval-Augmented Generation chatbot that answers queries from uploaded documents.",
+    image:       "/RAG.png",
+    technologies: ["Python", "TensorFlow", "FAISS"],
+    githubUrl:   "https://github.com/kiruthik5000/RAG",
+    liveUrl:     null,
+  },
+];
 
-            {/* Frosted badge on hover */}
-            <div className="absolute bottom-3 left-3 px-3 py-1.5 rounded-lg
-                          bg-slate-900/70 backdrop-blur-md border border-slate-700/50
-                          opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0
-                          transition-all duration-500">
-              <span className="text-sm font-semibold text-blue-400">{project.name}</span>
-            </div>
+const ProjectCard = ({ project, index }) => (
+  <HideOnOutOfView delay={index * 80} direction="up">
+    <div
+      className="group flex flex-col overflow-hidden rounded-xl
+                 border border-zinc-200 dark:border-zinc-800/60
+                 bg-white/60 dark:bg-zinc-900/10
+                 hover:border-zinc-300 dark:hover:border-zinc-700
+                 transition-all duration-300 card-shimmer"
+    >
+      {/* Thumbnail */}
+      <div className="relative h-44 overflow-hidden bg-zinc-50 dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800/40">
+        {project.image ? (
+          <img
+            src={project.image}
+            alt={project.name}
+            className="w-full h-full object-cover
+                       transition-transform duration-700 ease-out
+                       group-hover:scale-[1.04]"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-5xl opacity-20 select-none">
+            {project.emoji}
           </div>
+        )}
 
-          {/* Content Section */}
-          <div className="p-6 space-y-4">
-            {/* Project Name */}
-            <h3 className="text-xl font-bold text-slate-100 group-hover:text-blue-400
-                         transition-colors duration-300">
-              {project.name}
-            </h3>
+        {/* Overlay on hover */}
+        <div className="absolute inset-0 bg-zinc-950/0 group-hover:bg-zinc-950/10 dark:group-hover:bg-black/20 transition-colors duration-300" />
+      </div>
 
-            {/* Description */}
-            <p className="text-slate-400 leading-relaxed text-sm line-clamp-3">
-              {project.description}
-            </p>
-
-            {/* Technologies/Tags */}
-            {project.technologies && project.technologies.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {project.technologies.map((tech, techIndex) => (
-                  <span
-                    key={techIndex}
-                    className="px-2.5 py-1 text-xs rounded-full bg-slate-800/60 text-slate-400
-                             border border-slate-700/40 hover:border-blue-500/30 hover:bg-blue-500/10
-                             hover:text-blue-300 transition-all duration-300 cursor-default"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* Links */}
-            <div className="flex gap-3 pt-2">
-              {project.githubUrl && (
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50
-                           text-slate-400 border border-slate-700/50 hover:border-slate-600
-                           hover:bg-slate-700/50 hover:text-slate-200 transition-all duration-300"
-                >
-                  <FaGithub className="w-4 h-4" />
-                  <span className="text-sm font-medium">Code</span>
-                </a>
-              )}
-
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r
-                           from-blue-500/90 to-blue-600/90 text-white border border-transparent
-                           hover:from-blue-400 hover:to-blue-500 transition-all duration-300
-                           hover:shadow-lg hover:shadow-blue-500/20"
-                >
-                  <FaExternalLinkAlt className="w-3.5 h-3.5" />
-                  <span className="text-sm font-medium">Live Demo</span>
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      </HideOnOutOfView>
-    );
-  };
-
-  /* ===================== PROJECT DATA ===================== */
-  const projects = [
-    {
-      name: "Blog Post Management",
-      description: "A full-stack blog management system with CRUD operations, user authentication, and a responsive interface built with React and Spring Boot.",
-      image: "/blog_post.png",
-      technologies: ["React", "Spring Boot", "MySQL"],
-      githubUrl: "https://github.com/iamneo-production/d2cc9c72-613d-4bc8-9a7e-2e30e920eaa7-a130de1c-fce0-4d3b-9c68-315265bea755/tree/SRC-Branch",
-      liveUrl: "https://project1.demo.com"
-    },
-    {
-      name: "Bug Tracker App",
-      description: "A comprehensive bug tracking application with role-based access, project management, and real-time status updates for development teams.",
-      image: "/bug_tracker.png",
-      technologies: ["React Vite", "Spring Boot", "MySQL", "Tailwind CSS"],
-      githubUrl: "https://github.com/kiruthik5000/BugTracker",
-      liveUrl: "https://project3.demo.com"
-    },
-    {
-      name: "Dine Directory",
-      description: "A restaurant discovery platform with search, filtering, and booking features. Built entirely on the MERN stack for seamless user experience.",
-      image: "/dine_directory.png",
-      technologies: ["React", "Express.js", "MongoDB", "Node.js"],
-      githubUrl: "https://github.com/kiruthik5000/DineDirectory",
-      liveUrl: "https://project2.demo.com"
-    },
-    {
-      name: "Food Image Classifier",
-      description: "A deep learning model that classifies food images using transfer learning and CNNs, trained on curated datasets with high accuracy.",
-      image: "/food_image.png",
-      technologies: ["Python", "TensorFlow", "Scikit-learn", "Transfer Learning"],
-      githubUrl: "https://github.com/kiruthik5000/FoodImageClassification",
-      liveUrl: "https://project5.demo.com"
-    },
-    {
-      name: "Tetris Game",
-      description: "A classic Tetris game built with Python and Pygame, featuring smooth animations, score tracking, and increasing difficulty levels.",
-      image: "/tetris.png",
-      technologies: ["Python", "Pygame"],
-      githubUrl: "https://github.com/kiruthik5000/Notepad",
-      liveUrl: "https://project4.demo.com"
-    },
-    {
-      name: "Custom RAG",
-      description: "An industry-level Retrieval-Augmented Generation chatbot that ingests custom documents and answers queries using only the uploaded knowledge base.",
-      image: "/RAG.png",
-      technologies: ["Python", "TensorFlow", "NLP", "FAISS"],
-      githubUrl: "https://github.com/kiruthik5000/RAG",
-    }
-  ];
-
-  /* ===================== RENDER ===================== */
-  return (
-    <section className="min-h-screen text-slate-200 px-6 py-16 flex">
-      <div className="max-w-7xl w-full space-y-12">
-        {/* Section Title */}
-        <div className="space-y-4">
-          <Title>Projects</Title>
+      {/* Body */}
+      <div className="flex flex-col flex-1 p-5 gap-3.5">
+        {/* Title row */}
+        <div className="flex items-center gap-2.5">
+          <span className="text-xl select-none leading-none">{project.emoji}</span>
+          <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 leading-snug group-hover:text-zinc-950 dark:group-hover:text-white transition-colors duration-200">
+            {project.name}
+          </h3>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <ProjectCard key={index} project={project} index={index} />
+        {/* Description */}
+        <p className="text-[11.5px] text-zinc-500 dark:text-zinc-400 leading-relaxed line-clamp-2 flex-1">
+          {project.description}
+        </p>
+
+        {/* Tech tags */}
+        <div className="flex flex-wrap gap-1.5">
+          {project.technologies.map((tech) => (
+            <span
+              key={tech}
+              className="flex items-center gap-1 px-2 py-0.5 text-[10px] font-semibold rounded-md
+                         border border-zinc-200 dark:border-zinc-800
+                         bg-white dark:bg-zinc-900/60
+                         text-zinc-600 dark:text-zinc-400
+                         hover:border-[var(--accent-border)] hover:text-[var(--accent)] hover:bg-[var(--accent-dim)]
+                         dark:hover:border-[var(--accent-border)] dark:hover:text-[var(--accent)] dark:hover:bg-[var(--accent-dim)]
+                         transition-all duration-200 cursor-default select-none"
+            >
+              {TECH_ICONS[tech] && <span className="opacity-60">{TECH_ICONS[tech]}</span>}
+              {tech}
+            </span>
           ))}
         </div>
+
+        {/* Action buttons */}
+        <div className="flex items-center gap-2 pt-1 border-t border-zinc-100 dark:border-zinc-800/40">
+          {project.githubUrl && (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold
+                         border border-zinc-200 dark:border-zinc-800
+                         bg-white/60 dark:bg-zinc-900/40
+                         text-zinc-600 dark:text-zinc-400
+                         hover:text-zinc-900 dark:hover:text-zinc-100
+                         hover:border-zinc-400 dark:hover:border-zinc-600
+                         transition-all duration-200"
+            >
+              <FiGithub size={12} /> Code
+            </a>
+          )}
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold
+                         border border-transparent
+                         bg-zinc-950 dark:bg-zinc-100
+                         text-white dark:text-zinc-950
+                         hover:bg-zinc-800 dark:hover:bg-zinc-200
+                         transition-all duration-200"
+            >
+              <FiExternalLink size={12} /> Live
+            </a>
+          )}
+        </div>
       </div>
-    </section>
-  );
-};
+    </div>
+  </HideOnOutOfView>
+);
+
+const Projects = () => (
+  <section id="projects" className="min-h-screen px-6 py-16 flex justify-center">
+    <div className="max-w-4xl w-full">
+      <Title>Projects</Title>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {projects.map((project, index) => (
+          <ProjectCard key={index} project={project} index={index} />
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
 export default Projects;

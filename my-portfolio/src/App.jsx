@@ -1,116 +1,114 @@
 import "./App.css";
+import Topbar from "./components/Topbar";
 import AboutMe from "./components/AboutMe";
 import Home from "./components/Home";
 import Projects from "./components/Projects";
 import HideOnOutOfView from "./components/utils/HideOnOutOfView";
-import { FaGithub, FaLinkedin, FaEnvelope, FaHeart } from "react-icons/fa";
+import { FiGithub, FiLinkedin, FiMail, FiHeart } from "react-icons/fi";
 
 function App() {
   return (
-    <div className="pt-24 relative z-10">
-      <HideOnOutOfView>
-        <section id="home" className="min-h-screen flex items-center justify-center">
-          <Home />
-        </section>
-      </HideOnOutOfView>
+    <>
+      <Topbar />
 
-      {/* Section divider */}
-      <div className="section-divider" />
+      <main className="relative z-10">
+        {/* ─── HERO ─── */}
+        <Home />
 
-      <HideOnOutOfView>
-        <section id="about" className="min-h-screen flex items-center justify-center">
-          <AboutMe />
-        </section>
-      </HideOnOutOfView>
+        <div className="section-divider" />
 
-      {/* Section divider */}
-      <div className="section-divider" />
+        {/* ─── ABOUT ─── */}
+        <AboutMe />
 
-      <HideOnOutOfView>
-        <section id="projects" className="min-h-screen flex items-center justify-center">
-          <Projects />
-        </section>
-      </HideOnOutOfView>
+        <div className="section-divider" />
 
-      {/* Section divider */}
-      <div className="section-divider" />
+        {/* ─── PROJECTS ─── */}
+        <Projects />
 
-      {/* ==================== CONTACT SECTION ==================== */}
-      <HideOnOutOfView>
-        <section id="contact" className="min-h-[70vh] flex items-center justify-center px-6 py-20">
-          <div className="max-w-2xl w-full text-center space-y-8">
-            {/* Heading */}
-            <h2 className="text-4xl lg:text-5xl font-bold">
-              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-600 bg-clip-text text-transparent">
-                Get In Touch
-              </span>
-            </h2>
+        <div className="section-divider" />
 
-            <p className="text-slate-400 text-lg leading-relaxed max-w-lg mx-auto">
-              I'm currently open to new opportunities and collaborations.
-              Whether you have a project in mind or just want to say hi, feel free to reach out!
-            </p>
+        {/* ─── CONTACT ─── */}
+        <HideOnOutOfView direction="up">
+          <section
+            id="contact"
+            className="min-h-[60vh] flex items-center justify-center px-6 py-20"
+          >
+            <div className="max-w-lg w-full text-center space-y-6">
+              {/* Label */}
+              <p className="text-[10px] font-bold tracking-widest uppercase text-zinc-400 dark:text-zinc-500">
+                Let's connect
+              </p>
 
-            {/* CTA Email Button */}
-            <div>
-              <a
-                href="mailto:kiruthikvairam5000@gmail.com"
-                className="inline-flex items-center gap-3 px-8 py-3.5 rounded-xl
-                         bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold
-                         text-base shadow-lg shadow-blue-500/20
-                         hover:shadow-blue-500/40 hover:translate-y-[-2px]
-                         transition-all duration-300 group"
-                style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
-              >
-                <FaEnvelope className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
-                Say Hello
-              </a>
+              {/* Headline */}
+              <h2 className="text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50 leading-tight">
+                Got a project in mind?<br />
+                <span className="text-[var(--accent)]">Let's talk.</span>
+              </h2>
+
+              {/* Sub-text */}
+              <p className="text-[13px] text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-sm mx-auto">
+                I'm currently open to new roles and freelance opportunities.
+                If you want to collaborate or just say hi — I'd love to hear from you.
+              </p>
+
+              {/* CTA */}
+              <div className="flex items-center justify-center gap-3 pt-2">
+                <a
+                  href="mailto:kiruthikvairam5000@gmail.com"
+                  className="flex items-center gap-2 px-6 py-3 rounded-full text-[12px] font-bold
+                             bg-zinc-950 dark:bg-zinc-100
+                             text-white dark:text-zinc-950
+                             hover:bg-zinc-800 dark:hover:bg-zinc-200
+                             transition-all duration-200 border border-transparent shadow-sm"
+                >
+                  <FiMail size={14} />
+                  Send an Email
+                </a>
+              </div>
+
+              {/* Social icons */}
+              <div className="flex justify-center items-center gap-3 pt-4">
+                {[
+                  { href: "https://github.com/kiruthik5000",                          Icon: FiGithub,   label: "GitHub"   },
+                  { href: "https://www.linkedin.com/in/kiruthik-vairavel-56244b302/", Icon: FiLinkedin, label: "LinkedIn" },
+                  { href: "mailto:kiruthikvairam5000@gmail.com",                      Icon: FiMail,     label: "Email"    },
+                ].map(({ href, Icon, label }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target={href.startsWith("mailto") ? undefined : "_blank"}
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="p-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800
+                               bg-white/60 dark:bg-zinc-900/30
+                               text-zinc-500 dark:text-zinc-500
+                               hover:text-zinc-900 dark:hover:text-zinc-100
+                               hover:border-zinc-400 dark:hover:border-zinc-600
+                               transition-all duration-200"
+                  >
+                    <Icon size={16} />
+                  </a>
+                ))}
+              </div>
             </div>
+          </section>
+        </HideOnOutOfView>
+      </main>
 
-            {/* Social Links */}
-            <div className="flex justify-center gap-6 pt-4">
-              <a
-                href="https://github.com/kiruthik5000"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-slate-500 hover:text-slate-200 transition-colors duration-300"
-                aria-label="GitHub"
-              >
-                <FaGithub className="w-6 h-6" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/kiruthik-vairavel-56244b302/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-slate-500 hover:text-blue-400 transition-colors duration-300"
-                aria-label="LinkedIn"
-              >
-                <FaLinkedin className="w-6 h-6" />
-              </a>
-              <a
-                href="mailto:kiruthikvairam5000@gmail.com"
-                className="text-slate-500 hover:text-cyan-400 transition-colors duration-300"
-                aria-label="Email"
-              >
-                <FaEnvelope className="w-6 h-6" />
-              </a>
-            </div>
-          </div>
-        </section>
-      </HideOnOutOfView>
-
-      {/* ==================== FOOTER ==================== */}
-      <footer className="border-t border-slate-800/50 py-8 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col items-center gap-2 text-center">
-          <p className="text-slate-500 text-sm">
-            Designed & Built with <FaHeart className="inline w-3 h-3 text-red-400/70 mx-0.5" /> by Kiruthik
+      {/* ─── FOOTER ─── */}
+      <footer className="border-t border-zinc-200 dark:border-zinc-800/60 py-7 px-6">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-[11px] text-zinc-400 dark:text-zinc-500">
+            Designed & Built with{" "}
+            <FiHeart className="inline w-3 h-3 text-red-400 dark:text-red-500 mx-0.5 align-[-1px]" />{" "}
+            by <span className="font-semibold text-zinc-600 dark:text-zinc-400">Kiruthik Vairavel</span>
           </p>
-          <p className="text-slate-600 text-xs">
-            &copy; {new Date().getFullYear()} All rights reserved.
+          <p className="text-[11px] text-zinc-400 dark:text-zinc-600">
+            © {new Date().getFullYear()} · All rights reserved.
           </p>
         </div>
       </footer>
-    </div>
+    </>
   );
 }
 

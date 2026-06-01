@@ -1,148 +1,214 @@
 import { useState, useEffect, useRef } from "react";
+import { FiSun, FiMoon, FiArrowRight } from "react-icons/fi";
 
 function Topbar() {
   const [activeSection, setActiveSection] = useState("home");
-  const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const lastScrollY = useRef(0);
-  const [mounted, setMounted] = useState(false);
+  const [scrolled, setScrolled]         = useState(false);
+  const [hidden, setHidden]             = useState(false);
+  const lastScrollY                     = useRef(0);
 
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem("theme") || "dark";
+    // Apply immediately before any render
+    if (saved === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    return saved;
+  });
+
+  /* ── Apply dark class to <html> ── */
   useEffect(() => {
-    setTimeout(() => setMounted(true), 100);
-  }, []);
+    const root = document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
+  /* ── Scroll tracking ── */
   useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setHidden(y > lastScrollY.current && y > 160);
+      lastScrollY.current = y;
+      setScrolled(y > 24);
 
-      // Show/hide on scroll direction
-      if (currentY > 100) {
-        setHidden(currentY > lastScrollY.current && currentY > 200);
-      } else {
-        setHidden(false);
-      }
-      lastScrollY.current = currentY;
-
-      setScrolled(currentY > 20);
-
-      // Track active section
-      const sections = ["home", "about", "projects", "contact"];
-      const scrollPosition = currentY + 200;
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-            break;
-          }
+      const ids = ["home", "about", "projects", "contact"];
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top + window.scrollY;
+        const bottom = top + el.offsetHeight;
+        if (y + 200 >= top && y + 200 < bottom) {
+          setActiveSection(id);
+          break;
         }
       }
     };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const scrollToSection = (id) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const scrollTo = (id) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   const navItems = ["home", "about", "projects", "contact"];
+  const isDark = theme === "dark";
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 px-6 py-4
-        transition-all duration-500 ease-out
-        ${mounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}
-        ${hidden ? '-translate-y-full opacity-0' : ''}
-      `}
-      style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
+      style={{
+        position: "fixed",
+        top: "16px",
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        display: "flex",
+        justifyContent: "center",
+        padding: "0 16px",
+        transition: "opacity 0.4s, transform 0.4s",
+        opacity: hidden ? 0 : 1,
+        transform: hidden ? "translateY(-20px)" : "translateY(0)",
+        pointerEvents: hidden ? "none" : "auto",
+      }}
     >
-      <div className="max-w-7xl mx-auto">
-        <div
-          className={`
-            bg-slate-900/60 backdrop-blur-xl rounded-2xl border transition-all duration-500
-            ${scrolled
-              ? 'border-slate-700/60 shadow-2xl shadow-blue-500/5'
-              : 'border-slate-800/40 shadow-xl'
-            }
-          `}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "4px",
+          padding: "8px 10px",
+          borderRadius: "9999px",
+          border: `1px solid ${isDark ? "#27272a" : "#e2e2de"}`,
+          backgroundColor: isDark
+            ? "rgba(9,9,11,0.88)"
+            : "rgba(250,250,247,0.88)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          boxShadow: scrolled
+            ? isDark
+              ? "0 4px 24px rgba(0,0,0,0.6)"
+              : "0 4px 16px rgba(0,0,0,0.08)"
+            : "none",
+          transition: "all 0.3s cubic-bezier(0.22,1,0.36,1)",
+        }}
+      >
+        {/* Logo */}
+        <button
+          onClick={() => scrollTo("home")}
+          style={{
+            background: "none",
+            border: "none",
+            padding: "6px 12px",
+            borderRadius: "9999px",
+            fontWeight: 800,
+            fontSize: "13px",
+            letterSpacing: "-0.02em",
+            color: isDark ? "#f4f4f5" : "#111118",
+            cursor: "pointer",
+            fontFamily: "inherit",
+            transition: "color 0.2s",
+          }}
         >
-          <nav className="px-6 py-3 flex items-center justify-between">
+          @Kiruthik<span style={{ color: "var(--accent)" }}>.</span>
+        </button>
 
-            {/* LOGO */}
-            <div className="flex-shrink-0">
-              <span
-                className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent
-                           hover:from-cyan-400 hover:to-blue-400
-                           transition-all duration-500 cursor-pointer inline-block"
-                onClick={() => scrollToSection("home")}
-              >
-                @Kiruthik
-              </span>
-            </div>
+        {/* Separator */}
+        <div style={{ width: "1px", height: "16px", backgroundColor: isDark ? "#27272a" : "#e2e2de", margin: "0 4px" }} />
 
-            {/* CENTER MENU */}
-            <ul className="flex gap-1 text-sm">
-              {navItems.map((item) => (
-                <li
-                  key={item}
-                  onClick={() => scrollToSection(item)}
-                  className={`relative cursor-pointer px-4 py-2 rounded-xl font-medium
-                            transition-all duration-300 ease-out group
-                            ${activeSection === item
-                              ? 'text-blue-400'
-                              : 'text-slate-400 hover:text-slate-200'
-                            }`}
-                >
-                  <span className="relative z-10">
-                    {item.charAt(0).toUpperCase() + item.slice(1)}
-                  </span>
+        {/* Nav links */}
+        {navItems.map((item) => {
+          const isActive = activeSection === item;
+          return (
+            <button
+              key={item}
+              onClick={() => scrollTo(item)}
+              style={{
+                position: "relative",
+                background: isActive
+                  ? isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"
+                  : "none",
+                border: "none",
+                padding: "6px 14px",
+                borderRadius: "9999px",
+                fontSize: "10px",
+                fontWeight: 600,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: isActive
+                  ? isDark ? "#f4f4f5" : "#111118"
+                  : isDark ? "#a1a1aa" : "#5a5a64",
+                cursor: "pointer",
+                fontFamily: "inherit",
+                transition: "all 0.2s",
+              }}
+            >
+              {item.charAt(0).toUpperCase() + item.slice(1)}
+              {isActive && (
+                <span style={{
+                  position: "absolute",
+                  bottom: "2px",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  width: "4px",
+                  height: "4px",
+                  borderRadius: "9999px",
+                  backgroundColor: "var(--accent)",
+                }} />
+              )}
+            </button>
+          );
+        })}
 
-                  {/* Hover background */}
-                  <div className={`absolute inset-0 rounded-xl transition-all duration-300
-                    ${activeSection === item
-                      ? 'bg-blue-500/10 opacity-100'
-                      : 'bg-slate-700/0 opacity-0 group-hover:bg-slate-700/30 group-hover:opacity-100'
-                    }`}
-                  />
+        {/* Separator */}
+        <div style={{ width: "1px", height: "16px", backgroundColor: isDark ? "#27272a" : "#e2e2de", margin: "0 4px" }} />
 
-                  {/* Active / Hover underline */}
-                  <div className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5
-                                  rounded-full transition-all duration-300
-                                  ${activeSection === item
-                                    ? 'w-1/2 bg-blue-400'
-                                    : 'w-0 bg-slate-500 group-hover:w-1/3'
-                                  }`}
-                  />
-                </li>
-              ))}
-            </ul>
+        {/* Theme toggle */}
+        <button
+          onClick={() => setTheme(t => t === "dark" ? "light" : "dark")}
+          aria-label="Toggle theme"
+          style={{
+            background: "none",
+            border: "none",
+            padding: "8px",
+            borderRadius: "9999px",
+            color: isDark ? "#a1a1aa" : "#5a5a64",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transition: "all 0.2s",
+          }}
+        >
+          {isDark ? <FiSun size={14} /> : <FiMoon size={14} />}
+        </button>
 
-            {/* RIGHT - Contact Button */}
-            <div className="flex-shrink-0">
-              <button
-                onClick={() => scrollToSection("contact")}
-                className="relative px-5 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600
-                         text-white font-semibold text-sm overflow-hidden group
-                         hover:shadow-blue-500/40 hover:shadow-xl
-                         transition-all duration-300"
-              >
-                <span className="relative z-10">Contact Me</span>
-
-                {/* Shimmer */}
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full
-                              transition-transform duration-1000 bg-gradient-to-r
-                              from-transparent via-white/15 to-transparent" />
-              </button>
-            </div>
-          </nav>
-        </div>
+        {/* Hire Me CTA */}
+        <button
+          onClick={() => scrollTo("contact")}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            padding: "7px 16px",
+            borderRadius: "9999px",
+            border: "none",
+            fontSize: "11px",
+            fontWeight: 700,
+            backgroundColor: isDark ? "#f4f4f5" : "#111118",
+            color: isDark ? "#111118" : "#f4f4f5",
+            cursor: "pointer",
+            fontFamily: "inherit",
+            marginLeft: "4px",
+            transition: "all 0.2s",
+          }}
+        >
+          Hire Me <FiArrowRight size={11} />
+        </button>
       </div>
     </header>
   );

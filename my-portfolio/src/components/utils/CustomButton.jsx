@@ -1,75 +1,45 @@
-import React, { useState } from 'react';
+import React from "react";
+import { FiArrowRight, FiDownload } from "react-icons/fi";
 
-const CustomButton = ({ children, variant = "primary", onClick }) => {
-  const [ripples, setRipples] = useState([]);
-
-  const scrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId.toLowerCase());
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
+const CustomButton = ({ children, variant = "primary", onClick, icon }) => {
+  const scrollToSection = (label) => {
+    document.getElementById(label.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleClick = (e) => {
-    // Create ripple effect
-    const button = e.currentTarget;
-    const rect = button.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    const newRipple = { x, y, id: Date.now() };
-    setRipples([...ripples, newRipple]);
-    
-    setTimeout(() => {
-      setRipples(ripples => ripples.filter(r => r.id !== newRipple.id));
-    }, 600);
-
-    // Handle navigation
-    if (onClick) {
-      onClick();
-    } else {
-      scrollToSection(children);
-    }
+  const handleClick = () => {
+    if (onClick) onClick();
+    else scrollToSection(children);
   };
 
-  const baseClasses = `
-    relative px-8 py-3 rounded-xl font-semibold text-base overflow-hidden
-    transition-all duration-300 shadow-lg group
-  `;
-
-  const variantClasses = variant === "primary" 
-    ? `bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600
-       hover:from-cyan-400 hover:via-blue-500 hover:to-purple-500
-       text-white hover:shadow-cyan-500/50 hover:scale-105`
-    : `bg-slate-800/60 border-2 border-slate-700 text-slate-200
-       hover:border-cyan-400 hover:text-cyan-400 hover:shadow-cyan-500/30 hover:scale-105`;
+  if (variant === "primary") {
+    return (
+      <button
+        onClick={handleClick}
+        className="flex items-center gap-2 px-5 py-2.5 rounded-full text-[12px] font-bold
+                   bg-zinc-950 dark:bg-zinc-50
+                   text-white dark:text-zinc-950
+                   hover:bg-zinc-800 dark:hover:bg-zinc-200
+                   transition-all duration-200 border border-transparent shadow-sm"
+      >
+        {children}
+        <FiArrowRight size={13} />
+      </button>
+    );
+  }
 
   return (
-    <button 
-      className={`${baseClasses} ${variantClasses}`}
+    <button
       onClick={handleClick}
+      className="flex items-center gap-2 px-5 py-2.5 rounded-full text-[12px] font-bold
+                 bg-transparent
+                 border border-zinc-200 dark:border-zinc-700
+                 text-zinc-700 dark:text-zinc-300
+                 hover:border-zinc-400 dark:hover:border-zinc-500
+                 hover:bg-zinc-50 dark:hover:bg-zinc-900/40
+                 transition-all duration-200"
     >
-      <span className="relative z-10">{children}</span>
-      
-      {/* Shimmer effect */}
-      <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full 
-                    transition-transform duration-1000 bg-gradient-to-r 
-                    from-transparent via-white/20 to-transparent" />
-      
-      {/* Ripple effects */}
-      {ripples.map(ripple => (
-        <span
-          key={ripple.id}
-          className="absolute bg-white/30 rounded-full animate-ping"
-          style={{
-            left: ripple.x,
-            top: ripple.y,
-            width: 20,
-            height: 20,
-            transform: 'translate(-50%, -50%)',
-          }}
-        />
-      ))}
+      {icon && <FiDownload size={13} />}
+      {children}
     </button>
   );
 };

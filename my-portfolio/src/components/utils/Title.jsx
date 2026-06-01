@@ -6,26 +6,29 @@ const Title = ({ children }) => {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.5 }
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.2 }
     );
     if (ref.current) observer.observe(ref.current);
     return () => { if (ref.current) observer.unobserve(ref.current); };
   }, []);
 
   return (
-    <div ref={ref} className="inline-block w-fit mb-2">
-      <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-600 bg-clip-text text-transparent text-5xl font-bold">
+    <div ref={ref} className="inline-flex flex-col gap-2 mb-8">
+      <h2
+        className={`text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50
+                    transition-all duration-700
+                    ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
+        style={{ transitionTimingFunction: "var(--ease)" }}
+      >
         {children}
-      </span>
-      {/* Animated expanding underline */}
+      </h2>
+      {/* Expanding underline */}
       <div
-        className="h-1 bg-gradient-to-r from-blue-600 via-cyan-400 to-purple-400 rounded-full mt-2 transition-all duration-700 ease-out"
+        className="h-[1.5px] bg-zinc-200 dark:bg-zinc-800 rounded-full transition-all duration-700"
         style={{
-          width: visible ? '100%' : '0%',
-          transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          width: visible ? "100%" : "0%",
+          transitionTimingFunction: "var(--ease)",
         }}
       />
     </div>

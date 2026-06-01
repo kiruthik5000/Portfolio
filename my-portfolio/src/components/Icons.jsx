@@ -1,58 +1,36 @@
-import React from 'react';
-import { FaGithub, FaLinkedin, FaInstagram, FaTwitter } from "react-icons/fa";
+import React from "react";
+import {
+  FiGithub, FiLinkedin, FiInstagram, FiTwitter
+} from "react-icons/fi";
 
-const Icons = () => {
-  const socialLinks = [
-    {
-      icon: FaGithub,
-      url: "https://github.com/kiruthik5000",
-      label: "GitHub",
-      hoverColor: "hover:text-white hover:border-slate-500 hover:shadow-slate-500/30",
-    },
-    {
-      icon: FaLinkedin,
-      url: "https://www.linkedin.com/in/kiruthik-vairavel-56244b302/",
-      label: "LinkedIn",
-      hoverColor: "hover:text-blue-400 hover:border-blue-400 hover:shadow-blue-500/30",
-    },
-    {
-      icon: FaInstagram,
-      url: "https://www.instagram.com/roshan_kiruthik_/",
-      label: "Instagram",
-      hoverColor: "hover:text-pink-400 hover:border-pink-400 hover:shadow-pink-500/30",
-    },
-    {
-      icon: FaTwitter,
-      url: "https://twitter.com",
-      label: "Twitter",
-      hoverColor: "hover:text-cyan-400 hover:border-cyan-400 hover:shadow-cyan-500/30",
-    },
-  ];
+const socialLinks = [
+  { Icon: FiGithub,   href: "https://github.com/kiruthik5000",                          label: "GitHub"    },
+  { Icon: FiLinkedin, href: "https://www.linkedin.com/in/kiruthik-vairavel-56244b302/", label: "LinkedIn"  },
+  { Icon: FiInstagram,href: "https://www.instagram.com/roshan_kiruthik_/",              label: "Instagram" },
+  { Icon: FiTwitter,  href: "https://twitter.com",                                      label: "Twitter"   },
+];
 
-  return (
-    <div className="flex gap-4 justify-center">
-      {socialLinks.map((social, index) => (
-        <a
-          key={index}
-          href={social.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={social.label}
-          className="group"
-          style={{ animationDelay: `${index * 80}ms` }}
-        >
-          <div className={`p-3 rounded-full bg-slate-800/50 border border-slate-700/50
-                        transition-all duration-300 shadow-lg
-                        hover:scale-110 hover:-translate-y-1
-                        ${social.hoverColor}`}
-          >
-            <social.icon className="w-5 h-5 text-slate-400 transition-colors duration-300
-                                  group-hover:text-inherit" />
-          </div>
-        </a>
-      ))}
-    </div>
-  );
-};
+const Icons = () => (
+  <div className="flex items-center gap-2">
+    {socialLinks.map(({ Icon, href, label }) => (
+      <a
+        key={label}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={label}
+        className="p-2 rounded-lg border border-zinc-200 dark:border-zinc-800
+                   bg-white/60 dark:bg-zinc-900/30
+                   text-zinc-500 dark:text-zinc-500
+                   hover:text-zinc-900 dark:hover:text-zinc-100
+                   hover:border-zinc-400 dark:hover:border-zinc-600
+                   hover:bg-zinc-50 dark:hover:bg-zinc-800/50
+                   transition-all duration-200"
+      >
+        <Icon size={15} />
+      </a>
+    ))}
+  </div>
+);
 
 export default Icons;

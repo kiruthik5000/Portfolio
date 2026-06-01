@@ -3,284 +3,237 @@ import Title from "./utils/Title";
 import SubTitle from "./utils/SubTitle";
 import HideOnOutOfView from "./utils/HideOnOutOfView";
 import {
-  FaCertificate,
-  FaCode,
-  FaGraduationCap,
-  FaSchool,
-  FaTrophy,
-  FaUniversity,
+  FaGraduationCap, FaUniversity, FaSchool,
+  FaTrophy, FaCode, FaCertificate,
 } from "react-icons/fa";
+import {
+  SiPython, SiOpenjdk, SiJavascript,
+  SiReact, SiTailwindcss, SiTensorflow,
+  SiScikitlearn, SiSpring, SiMysql,
+  SiGit, SiLinux, SiSelenium,
+  SiKaggle,
+} from "react-icons/si";
+import { VscCode } from "react-icons/vsc";
 
-const AboutMe = () => {
-  /* ===================== UI HELPERS ===================== */
+/* ── Skill icon map ── */
+const SKILL_ICONS = {
+  "Python":                <SiPython      size={13} />,
+  "Java":                  <SiOpenjdk     size={13} />,
+  "JavaScript":            <SiJavascript  size={13} />,
+  "React":                 <SiReact       size={13} />,
+  "Tailwind CSS":          <SiTailwindcss size={13} />,
+  "TensorFlow":            <SiTensorflow  size={13} />,
+  "Scikit-learn":          <SiScikitlearn size={13} />,
+  "Spring Boot":           <SiSpring      size={13} />,
+  "MySQL":                 <SiMysql       size={13} />,
+  "Git & GitHub":          <SiGit         size={13} />,
+  "Linux":                 <SiLinux       size={13} />,
+  "Selenium":              <SiSelenium    size={13} />,
+  "Kaggle":                <SiKaggle      size={13} />,
+  "VS Code":               <VscCode       size={13} />,
+};
 
-  const Card = ({ children, className = "" }) => (
-    <div
-      className={`group relative bg-slate-900/50 border border-slate-800/60 rounded-2xl p-6
-                  hover:border-slate-700/80 transition-all duration-500
-                  hover:shadow-xl hover:shadow-blue-500/5 ${className}`}
-    >
-      {/* Left accent bar that glows on hover */}
-      <div className="absolute left-0 top-6 bottom-6 w-0.5 bg-slate-800 rounded-full
-                    group-hover:bg-gradient-to-b group-hover:from-blue-400 group-hover:to-cyan-400
-                    transition-all duration-500" />
-      {children}
-    </div>
-  );
+/* ── DATA ── */
+const education = [
+  {
+    icon: <FaGraduationCap size={18} />,
+    title: "B.Tech in Information Technology",
+    institute: "Sri Krishna College Of Engineering And Technology, Coimbatore",
+    description: "DSA · Machine Learning · AI · DBMS · Operating Systems",
+    period: "2023–2027",
+    metric: "CGPA",
+    value: "8.41",
+  },
+  {
+    icon: <FaUniversity size={18} />,
+    title: "Senior Secondary — Class XII",
+    institute: "Mani Matriculation Higher Secondary School, Thanjavur",
+    description: "Computer Science · Mathematics",
+    period: "2022–2023",
+    metric: "Percentage",
+    value: "89.5%",
+  },
+  {
+    icon: <FaSchool size={18} />,
+    title: "Secondary — Class X",
+    institute: "Mani Matriculation Higher Secondary School, Thanjavur",
+    description: "General Studies",
+    period: "2021–2022",
+    metric: "Percentage",
+    value: "95.9%",
+  },
+];
 
-  const TagList = ({ items }) => {
-    return (
-      <div className="flex flex-wrap gap-2">
-        {items.map((item) => (
-          <span
-            key={item}
-            className="px-3 py-1 text-sm rounded-full bg-slate-800/60 text-slate-400 border border-slate-700/50
-                      transition-all duration-300 cursor-default
-                      hover:bg-blue-500/10 hover:text-blue-300 hover:border-blue-500/30"
-          >
-            {item}
-          </span>
-        ))}
-      </div>
-    );
-  };
+const skills = [
+  {
+    title: "Languages",
+    items: ["Python", "Java", "JavaScript"],
+  },
+  {
+    title: "ML & AI",
+    items: ["Supervised Learning", "Unsupervised Learning", "NLP", "RNN / LSTM", "Time Series"],
+  },
+  {
+    title: "Frameworks",
+    items: ["React", "Spring Boot", "Tailwind CSS", "TensorFlow", "Scikit-learn"],
+  },
+  {
+    title: "Tools",
+    items: ["Git & GitHub", "Linux", "MySQL", "Selenium", "Kaggle", "VS Code"],
+  },
+];
 
-  const EducationCard = ({ education, index }) => (
-    <HideOnOutOfView delay={index * 120} direction="up">
-      <Card className="flex gap-8 items-start w-full hover:translate-x-1 transition-transform duration-500">
-        {/* Icon */}
-        <div className="py-4 text-3xl text-blue-400/80">{education.icon}</div>
+const achievements = [
+  {
+    icon: <FaTrophy />,
+    title: "Competitive Programming",
+    text: <>Solved <strong className="text-zinc-900 dark:text-zinc-100 font-semibold">700+</strong> problems on <a href="https://leetcode.com/u/KIRUTHIKVAIRAVEL/" target="_blank" rel="noopener noreferrer" className="text-[var(--accent)] hover:underline">LeetCode</a> and other platforms like HackerRank.</>,
+    period: "2023 – Present",
+  },
+  {
+    icon: <FaCode />,
+    title: "Hackathons & Competitions",
+    text: "Competed in multiple college-level hackathons, demonstrating adaptability and performance under pressure.",
+    period: "2023 – 2026",
+  },
+  {
+    icon: <FaCertificate />,
+    title: "Certifications",
+    text: <>Certified on <strong className="text-zinc-900 dark:text-zinc-100 font-semibold">Google Cloud Platform, Infosys, NPTEL</strong> across cloud, data science, and software engineering.</>,
+    period: "Ongoing",
+  },
+];
 
-        <div className="flex-1">
-          <SubTitle>{education.title}</SubTitle>
-          <p className="text-slate-400 mt-1 text-sm">{education.institute}</p>
-          <p className="text-slate-500 text-sm mt-2">{education.description}</p>
-          <div className="inline-flex gap-2 justify-center items-center p-2 mt-2">
-            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-            <span className="text-slate-400 font-medium text-sm">
-              {education.percentage}:
-            </span>
-            <span className="text-blue-400 font-semibold">{education.value}</span>
-          </div>
-        </div>
+/* ── Card wrapper ── */
+const Card = ({ children, className = "" }) => (
+  <div
+    className={`bg-white/60 dark:bg-zinc-900/10
+                border border-zinc-200 dark:border-zinc-800/60
+                rounded-xl p-5
+                hover:border-zinc-300 dark:hover:border-zinc-700
+                transition-all duration-300
+                card-shimmer
+                ${className}`}
+  >
+    {children}
+  </div>
+);
 
-        <span
-          className="text-xs font-semibold uppercase tracking-wider
-                       text-blue-400/80 bg-blue-400/5 border border-blue-800/30 px-3 py-1 rounded-full
-                       whitespace-nowrap"
-        >
-          {education.period}
-        </span>
-      </Card>
-    </HideOnOutOfView>
-  );
-
-  /* ===================== DATA ===================== */
-
-  const education = [
-    {
-      title: "Bachelor's Degree in Information Technology",
-      institute:
-        "Sri Krishna College Of Engineering And Technology, Coimbatore",
-      description:
-        "Relevant coursework: Data Structures & Algorithms, Machine Learning, Artificial Intelligence, DBMS, Operating Systems",
-      period: "2023–2027",
-      percentage: "CGPA",
-      value: "8.41",
-      icon: <FaGraduationCap />,
-    },
-    {
-      title: "Senior Secondary (Class XII)",
-      institute: "Mani Matriculation Higher Secondary School, Thanjavur",
-      description:
-        "Completed secondary education with Computer Science and Mathematics",
-      period: "2022-2023",
-      percentage: "Percentage",
-      value: "89.5%",
-      icon: <FaUniversity />,
-    },
-    {
-      title: "Secondary (Class X)",
-      institute: "Mani Matriculation Higher Secondary School, Thanjavur",
-      description: "Completed secondary education",
-      period: "2021-2022",
-      percentage: "Percentage",
-      value: "95.9%",
-      icon: <FaSchool />,
-    },
-  ];
-
-  const skills = [
-    {
-      title: "Programming Languages",
-      items: ["Python", "Java", "JavaScript"],
-    },
-    {
-      title: "Machine Learning & AI",
-      items: [
-        "Supervised Learning",
-        "Unsupervised Learning",
-        "NLP",
-        "RNN / LSTM",
-        "Time Series Forecasting",
-      ],
-    },
-    {
-      title: "Frameworks & Libraries",
-      items: [
-        "React",
-        "Tailwind CSS",
-        "Scikit-learn",
-        "TensorFlow",
-        "Keras",
-        "Spring Boot",
-      ],
-    },
-    {
-      title: "Tools & Technologies",
-      items: [
-        "Git & GitHub",
-        "Kaggle",
-        "Selenium",
-        "REST APIs",
-        "IntelliJ",
-        "VS Code",
-        "Linux",
-      ],
-    },
-  ];
-
-  const achievements = [
-    {
-      title: "Competitive Programming",
-      icon: <FaTrophy />,
-      content: (
-        <>
-          Completed <span className="font-semibold text-blue-400">700+</span>{" "}
-          <a
-            href="https://leetcode.com/u/KIRUTHIKVAIRAVEL/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-400 font-semibold underline underline-offset-4
-                     hover:text-blue-300 transition-colors"
-          >
-            LeetCode
-          </a>{" "}
-          problems and also solved many questions in other platforms like
-          HackerRank and so on.
-        </>
-      ),
-      period: "2023 – Present",
-    },
-    {
-      title: "Hackathons & Coding Competitions",
-      icon: <FaCode />,
-      content: (
-        <>
-          Competed in several{" "}
-          <span className="font-semibold text-blue-400">
-            college-level hackathons and coding competitions
-          </span>
-          , demonstrating strong analytical skills, adaptability, and
-          performance in high-pressure environments.
-        </>
-      ),
-      period: "2023-2026",
-    },
-    {
-      title: "Certifications",
-      icon: <FaCertificate />,
-      content: (
-        <>
-          Completed numerous courses and obtained certificates on leading
-          platforms like{" "}
-          <span className="font-semibold text-blue-400">
-            Google Cloud Platform, Infosys, NPTEL
-          </span>{" "}
-          obtaining skills in various fields.
-        </>
-      ),
-      period: "Ongoing",
-    },
-  ];
-
-  /* ===================== RENDER ===================== */
-
+/* ── Skill tag ── */
+const Tag = ({ label }) => {
+  const icon = SKILL_ICONS[label];
   return (
-    <section
-      id="about"
-      className="min-h-screen text-slate-200 px-6 py-16 flex justify-center"
+    <span
+      className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-semibold rounded-md
+                 border border-zinc-200 dark:border-zinc-800
+                 bg-white dark:bg-zinc-900/50
+                 text-zinc-600 dark:text-zinc-400
+                 hover:border-[var(--accent-border)] hover:text-[var(--accent)] hover:bg-[var(--accent-dim)]
+                 dark:hover:border-[var(--accent-border)] dark:hover:text-[var(--accent)] dark:hover:bg-[var(--accent-dim)]
+                 transition-all duration-200 cursor-default select-none"
     >
-      <div className="max-w-5xl w-full space-y-16">
-        {/* ================= Education ================= */}
-        <div className="space-y-5">
-          <Title>Education</Title>
-          {education.map((item, index) => (
-            <EducationCard key={index} education={item} index={index} />
-          ))}
-        </div>
-
-        {/* ================= Skills ================= */}
-        <div className="space-y-5">
-          <Title>Skills</Title>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {skills.map((skill, index) => (
-              <HideOnOutOfView key={skill.title} delay={index * 100} direction="up">
-                <Card className="hover:translate-y-[-2px] transition-transform duration-500">
-                  <div className="flex gap-3 items-center mb-4 pl-3">
-                    <SubTitle>{skill.title}</SubTitle>
-                  </div>
-                  <div className="pl-3">
-                    <TagList items={skill.items} />
-                  </div>
-                </Card>
-              </HideOnOutOfView>
-            ))}
-          </div>
-        </div>
-
-        {/* ================= Achievements ================= */}
-        <div className="space-y-5">
-          <Title>Achievements</Title>
-
-          <div className="grid grid-cols-1 gap-6">
-            {achievements.map((item, index) => (
-              <HideOnOutOfView key={index} delay={index * 120} direction="up">
-                <Card
-                  className="flex items-start justify-between gap-6
-                     hover:translate-y-[-2px] transition-transform duration-500"
-                >
-                  {/* Left: Icon + Content */}
-                  <div className="flex items-start gap-4 pl-3">
-                    <div className="p-3 rounded-xl bg-blue-500/10 text-blue-400/80 text-xl shrink-0">
-                      {item.icon}
-                    </div>
-
-                    <div>
-                      <SubTitle>{item.title}</SubTitle>
-                      <p className="text-slate-400 leading-relaxed text-sm mt-1">
-                        {item.content}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Right: Period */}
-                  <span
-                    className="text-xs font-semibold uppercase tracking-wide
-                       text-blue-400/80 bg-blue-400/5 border border-blue-800/30
-                       px-3 py-1 rounded-full whitespace-nowrap shrink-0"
-                  >
-                    {item.period}
-                  </span>
-                </Card>
-              </HideOnOutOfView>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
+      {icon && <span className="opacity-70">{icon}</span>}
+      {label}
+    </span>
   );
 };
+
+const AboutMe = () => (
+  <section id="about" className="min-h-screen px-6 py-16 flex justify-center">
+    <div className="max-w-4xl w-full space-y-16">
+
+      {/* ═══ Education ═══ */}
+      <div>
+        <Title>Education</Title>
+        <div className="space-y-4">
+          {education.map((item, i) => (
+            <HideOnOutOfView key={i} delay={i * 80} direction="up">
+              <Card className="flex items-start gap-4">
+                {/* Icon */}
+                <div className="p-2.5 mt-0.5 shrink-0 rounded-lg
+                                border border-zinc-200 dark:border-zinc-800
+                                bg-zinc-50 dark:bg-zinc-900/60
+                                text-zinc-400 dark:text-zinc-500">
+                  {item.icon}
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+                    <SubTitle>{item.title}</SubTitle>
+                    <span className="text-[9px] font-bold uppercase tracking-wider
+                                     px-2 py-0.5 rounded
+                                     border border-zinc-200 dark:border-zinc-800
+                                     bg-white dark:bg-zinc-900/60
+                                     text-zinc-500 dark:text-zinc-400 shrink-0">
+                      {item.period}
+                    </span>
+                  </div>
+                  <p className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-500 mb-1">{item.institute}</p>
+                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed mb-2">{item.description}</p>
+                  <div className="inline-flex items-center gap-1.5">
+                    <span className="text-[10px] text-zinc-400 dark:text-zinc-500">{item.metric}:</span>
+                    <span className="text-[12px] font-bold text-[var(--accent)]">{item.value}</span>
+                  </div>
+                </div>
+              </Card>
+            </HideOnOutOfView>
+          ))}
+        </div>
+      </div>
+
+      {/* ═══ Skills ═══ */}
+      <div>
+        <Title>Skills</Title>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {skills.map((skill, i) => (
+            <HideOnOutOfView key={skill.title} delay={i * 80} direction="up">
+              <Card>
+                <p className="text-[10px] font-bold tracking-widest uppercase text-zinc-400 dark:text-zinc-500 mb-3">
+                  {skill.title}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {skill.items.map((item) => <Tag key={item} label={item} />)}
+                </div>
+              </Card>
+            </HideOnOutOfView>
+          ))}
+        </div>
+      </div>
+
+      {/* ═══ Achievements ═══ */}
+      <div>
+        <Title>Achievements</Title>
+        <div className="space-y-4">
+          {achievements.map((item, i) => (
+            <HideOnOutOfView key={i} delay={i * 80} direction="up">
+              <Card className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  <div className="p-2.5 shrink-0 rounded-lg
+                                  border border-zinc-200 dark:border-zinc-800
+                                  bg-zinc-50 dark:bg-zinc-900/60
+                                  text-zinc-400 dark:text-zinc-500 text-base">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <SubTitle>{item.title}</SubTitle>
+                    <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl">{item.text}</p>
+                  </div>
+                </div>
+                <span className="text-[9px] font-bold uppercase tracking-wider shrink-0
+                                 px-2 py-0.5 rounded
+                                 border border-zinc-200 dark:border-zinc-800
+                                 bg-white dark:bg-zinc-900/60
+                                 text-zinc-500 dark:text-zinc-400">
+                  {item.period}
+                </span>
+              </Card>
+            </HideOnOutOfView>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+);
 
 export default AboutMe;
