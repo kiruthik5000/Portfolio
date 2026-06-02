@@ -94,7 +94,7 @@ function Topbar() {
               ? "0 4px 24px rgba(0,0,0,0.6)"
               : "0 4px 16px rgba(0,0,0,0.08)"
             : "none",
-          transition: "all 0.3s cubic-bezier(0.22,1,0.36,1)",
+          transition: "background-color 0.35s cubic-bezier(0.22,1,0.36,1), border-color 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s cubic-bezier(0.22,1,0.36,1)",
         }}
       >
         {/* Logo */}
@@ -111,14 +111,14 @@ function Topbar() {
             color: isDark ? "#f4f4f5" : "#111118",
             cursor: "pointer",
             fontFamily: "inherit",
-            transition: "color 0.2s",
+            transition: "color 0.35s cubic-bezier(0.22,1,0.36,1)",
           }}
         >
           @Kiruthik<span style={{ color: "var(--accent)" }}>.</span>
         </button>
 
         {/* Separator */}
-        <div style={{ width: "1px", height: "16px", backgroundColor: isDark ? "#27272a" : "#e2e2de", margin: "0 4px" }} />
+        <div style={{ width: "1px", height: "16px", backgroundColor: isDark ? "#27272a" : "#e2e2de", margin: "0 4px", transition: "background-color 0.35s cubic-bezier(0.22,1,0.36,1)" }} />
 
         {/* Nav links */}
         {navItems.map((item) => {
@@ -144,7 +144,7 @@ function Topbar() {
                   : isDark ? "#a1a1aa" : "#5a5a64",
                 cursor: "pointer",
                 fontFamily: "inherit",
-                transition: "all 0.2s",
+                transition: "color 0.35s cubic-bezier(0.22,1,0.36,1), background 0.35s cubic-bezier(0.22,1,0.36,1)",
               }}
             >
               {item.charAt(0).toUpperCase() + item.slice(1)}
@@ -181,7 +181,7 @@ function Topbar() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            transition: "all 0.2s",
+            transition: "color 0.35s cubic-bezier(0.22,1,0.36,1)",
           }}
         >
           {isDark ? <FiSun size={14} /> : <FiMoon size={14} />}
@@ -204,7 +204,7 @@ function Topbar() {
             cursor: "pointer",
             fontFamily: "inherit",
             marginLeft: "4px",
-            transition: "all 0.2s",
+            transition: "background-color 0.35s cubic-bezier(0.22,1,0.36,1), color 0.35s cubic-bezier(0.22,1,0.36,1)",
           }}
         >
           Hire Me <FiArrowRight size={11} />

@@ -72,6 +72,21 @@
   box-sizing: border-box;
 }
 
+/* ── Global smooth theme crossfade ── */
+/* Applies only to theme-sensitive properties so hover/animations are unaffected */
+:root {
+  --theme-transition: background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                      color            0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                      border-color     0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                      box-shadow       0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                      fill             0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                      stroke           0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*:not([class*="transition"]):not([class*="animate"]):not([class*="duration"]) {
+  transition: var(--theme-transition);
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -102,16 +117,15 @@ body {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 
-  /* Global smooth theme switching */
-  transition:
-    background-color 0.3s var(--ease),
-    color 0.3s var(--ease);
+  /* Smooth theme switch */
+  transition: var(--theme-transition);
 }
 
 a { color: inherit; text-decoration: none; }
 img, video { display: block; max-width: 100%; }
 ul { list-style: none; margin: 0; padding: 0; }
 button { cursor: pointer; font-family: inherit; }
+
 
 /* ═══════════════════════════════════════════════════════════
    SCROLLBAR
@@ -207,8 +221,75 @@ button { cursor: pointer; font-family: inherit; }
 .hero-img { animation: scaleUp 0.9s var(--ease) 0.6s both; }
 
 /* ═══════════════════════════════════════════════════════════
-   PORTFOLIO CARD SHIMMER
+   PROJECT CARD — INDUSTRY ANIMATIONS
 ═══════════════════════════════════════════════════════════ */
+
+/* Animated glow border ring */
+.project-card {
+  position: relative;
+  isolation: isolate;
+}
+
+.project-glow-ring {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    transparent 0deg,
+    var(--accent) 60deg,
+    transparent 120deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.project-card:hover .project-glow-ring {
+  opacity: 1;
+  animation: spin-angle 3s linear infinite;
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes spin-angle {
+  to { --angle: 360deg; }
+}
+
+/* Shimmer sweep on hover */
+.project-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255,255,255,0.055) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.project-card:hover::after {
+  transform: translateX(100%);
+}
+
+/* Legacy shimmer (keep for other uses) */
 .card-shimmer {
   position: relative;
   overflow: hidden;

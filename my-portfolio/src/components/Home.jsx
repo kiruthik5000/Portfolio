@@ -46,7 +46,7 @@ const Home = () => (
         className="hero-text-col"
         style={{
           flex: "0 0 auto",
-          width: "min(520px, 100%)",
+          width: "min(750px, 100%)",
           zIndex: 2,
           position: "relative",
         }}
@@ -97,7 +97,7 @@ const Home = () => (
         >
           Hi, I'm{" "}
           <span style={{ color: "var(--text)", display: "block" }}>
-            Kiruthik
+            Kiruthik Vairavel
             <span style={{ color: "var(--accent)" }}>.</span>
           </span>
         </h1>
@@ -134,8 +134,8 @@ const Home = () => (
           <strong style={{ color: "var(--text)", fontWeight: 700 }}>
             full-stack engineering with machine learning
           </strong>{" "}
-          to solve real problems. CGPA:{" "}
-          <strong style={{ color: "var(--accent)", fontWeight: 700 }}>8.41</strong>.
+          to solve real problems.
+          {/* <strong style={{ color: "var(--accent)", fontWeight: 700 }}>8.41</strong>. */}
         </p>
 
         {/* CTA Buttons */}

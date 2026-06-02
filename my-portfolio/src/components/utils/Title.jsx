@@ -16,7 +16,7 @@ const Title = ({ children }) => {
   return (
     <div ref={ref} className="inline-flex flex-col gap-2 mb-8">
       <h2
-        className={`text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50
+        className={`text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50
                     transition-all duration-700
                     ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
         style={{ transitionTimingFunction: "var(--ease)" }}

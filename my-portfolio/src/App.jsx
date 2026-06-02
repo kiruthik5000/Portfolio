@@ -56,10 +56,12 @@ function App() {
                 <a
                   href="mailto:kiruthikvairam5000@gmail.com"
                   className="flex items-center gap-2 px-6 py-3 rounded-full text-[12px] font-bold
-                             bg-zinc-950 dark:bg-zinc-100
-                             text-white dark:text-zinc-950
-                             hover:bg-zinc-800 dark:hover:bg-zinc-200
-                             transition-all duration-200 border border-transparent shadow-sm"
+                             transition-all duration-200 shadow-sm hover:opacity-80 active:scale-95"
+                  style={{
+                    backgroundColor: "var(--text)",
+                    color: "var(--bg)",
+                    border: "1px solid transparent",
+                  }}
                 >
                   <FiMail size={14} />
                   Send an Email
