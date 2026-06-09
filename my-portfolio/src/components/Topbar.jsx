@@ -1,5 +1,7 @@
+import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { FiSun, FiMoon, FiArrowRight } from "react-icons/fi";
+import clsx from "clsx";
 
 function Topbar() {
   const [activeSection, setActiveSection] = useState("home");
@@ -9,7 +11,6 @@ function Topbar() {
 
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem("theme") || "dark";
-    // Apply immediately before any render
     if (saved === "dark") {
       document.documentElement.classList.add("dark");
     } else {
@@ -18,7 +19,6 @@ function Topbar() {
     return saved;
   });
 
-  /* ── Apply dark class to <html> ── */
   useEffect(() => {
     const root = document.documentElement;
     if (theme === "dark") {
@@ -29,7 +29,6 @@ function Topbar() {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  /* ── Scroll tracking ── */
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
@@ -57,68 +56,43 @@ function Topbar() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   const navItems = ["home", "about", "projects", "contact"];
-  const isDark = theme === "dark";
 
   return (
-    <header
-      style={{
-        position: "fixed",
-        top: "16px",
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        display: "flex",
-        justifyContent: "center",
-        padding: "0 16px",
-        transition: "opacity 0.4s, transform 0.4s",
-        opacity: hidden ? 0 : 1,
-        transform: hidden ? "translateY(-20px)" : "translateY(0)",
-        pointerEvents: hidden ? "none" : "auto",
+    <motion.header
+      initial={{ y: -40, opacity: 0 }}
+      animate={{ 
+        y: hidden ? -20 : 0, 
+        opacity: hidden ? 0 : 1 
       }}
+      transition={{ 
+        duration: 0.5, 
+        ease: [0.22, 1, 0.36, 1],
+        opacity: { duration: 0.4 }
+      }}
+      className={clsx(
+        "fixed top-4 left-0 right-0 z-50 flex justify-center px-4",
+        hidden && "pointer-events-none"
+      )}
     >
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "4px",
-          padding: "8px 10px",
-          borderRadius: "9999px",
-          border: `1px solid ${isDark ? "#27272a" : "#e2e2de"}`,
-          backgroundColor: isDark
-            ? "rgba(9,9,11,0.88)"
-            : "rgba(250,250,247,0.88)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          boxShadow: scrolled
-            ? isDark
-              ? "0 4px 24px rgba(0,0,0,0.6)"
-              : "0 4px 16px rgba(0,0,0,0.08)"
-            : "none",
-          transition: "background-color 0.35s cubic-bezier(0.22,1,0.36,1), border-color 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s cubic-bezier(0.22,1,0.36,1)",
-        }}
+        className={clsx(
+          "flex items-center gap-1 p-2 rounded-full border backdrop-blur-2xl transition-all duration-300",
+          "border-app-border dark:border-app-border-dark bg-app-bg/88 dark:bg-app-bg-dark/88",
+          scrolled && (
+            "shadow-lg dark:shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
+          )
+        )}
       >
         {/* Logo */}
         <button
           onClick={() => scrollTo("home")}
-          style={{
-            background: "none",
-            border: "none",
-            padding: "6px 12px",
-            borderRadius: "9999px",
-            fontWeight: 800,
-            fontSize: "13px",
-            letterSpacing: "-0.02em",
-            color: isDark ? "#f4f4f5" : "#111118",
-            cursor: "pointer",
-            fontFamily: "inherit",
-            transition: "color 0.35s cubic-bezier(0.22,1,0.36,1)",
-          }}
+          className="px-3 py-1.5 rounded-full font-extrabold text-[13px] tracking-tight text-app-text dark:text-app-text-dark cursor-pointer transition-colors"
         >
-          @Kiruthik<span style={{ color: "var(--accent)" }}>.</span>
+          @Kiruthik<span className="text-accent">.</span>
         </button>
 
         {/* Separator */}
-        <div style={{ width: "1px", height: "16px", backgroundColor: isDark ? "#27272a" : "#e2e2de", margin: "0 4px", transition: "background-color 0.35s cubic-bezier(0.22,1,0.36,1)" }} />
+        <div className="w-[1px] h-4 bg-app-border dark:bg-app-border-dark mx-1 transition-colors" />
 
         {/* Nav links */}
         {navItems.map((item) => {
@@ -127,90 +101,42 @@ function Topbar() {
             <button
               key={item}
               onClick={() => scrollTo(item)}
-              style={{
-                position: "relative",
-                background: isActive
-                  ? isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"
-                  : "none",
-                border: "none",
-                padding: "6px 14px",
-                borderRadius: "9999px",
-                fontSize: "10px",
-                fontWeight: 600,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                color: isActive
-                  ? isDark ? "#f4f4f5" : "#111118"
-                  : isDark ? "#a1a1aa" : "#5a5a64",
-                cursor: "pointer",
-                fontFamily: "inherit",
-                transition: "color 0.35s cubic-bezier(0.22,1,0.36,1), background 0.35s cubic-bezier(0.22,1,0.36,1)",
-              }}
+              className={clsx(
+                "relative px-3.5 py-1.5 rounded-full text-[10px] font-semibold tracking-widest uppercase cursor-pointer transition-all",
+                isActive
+                  ? "bg-black/6 dark:bg-white/8 text-app-text dark:text-app-text-dark"
+                  : "text-[#5a5a64] dark:text-[#a1a1aa]"
+              )}
             >
-              {item.charAt(0).toUpperCase() + item.slice(1)}
+              {item}
               {isActive && (
-                <span style={{
-                  position: "absolute",
-                  bottom: "2px",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  width: "4px",
-                  height: "4px",
-                  borderRadius: "9999px",
-                  backgroundColor: "var(--accent)",
-                }} />
+                <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-accent" />
               )}
             </button>
           );
         })}
 
         {/* Separator */}
-        <div style={{ width: "1px", height: "16px", backgroundColor: isDark ? "#27272a" : "#e2e2de", margin: "0 4px" }} />
+        <div className="w-[1px] h-4 bg-app-border dark:bg-app-border-dark mx-1" />
 
         {/* Theme toggle */}
         <button
           onClick={() => setTheme(t => t === "dark" ? "light" : "dark")}
           aria-label="Toggle theme"
-          style={{
-            background: "none",
-            border: "none",
-            padding: "8px",
-            borderRadius: "9999px",
-            color: isDark ? "#a1a1aa" : "#5a5a64",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            transition: "color 0.35s cubic-bezier(0.22,1,0.36,1)",
-          }}
+          className="p-2 rounded-full text-[#5a5a64] dark:text-[#a1a1aa] flex items-center justify-center transition-colors hover:text-app-text dark:hover:text-app-text-dark"
         >
-          {isDark ? <FiSun size={14} /> : <FiMoon size={14} />}
+          {theme === "dark" ? <FiSun size={14} /> : <FiMoon size={14} />}
         </button>
 
         {/* Hire Me CTA */}
         <button
           onClick={() => scrollTo("contact")}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            padding: "7px 16px",
-            borderRadius: "9999px",
-            border: "none",
-            fontSize: "11px",
-            fontWeight: 700,
-            backgroundColor: isDark ? "#f4f4f5" : "#111118",
-            color: isDark ? "#111118" : "#f4f4f5",
-            cursor: "pointer",
-            fontFamily: "inherit",
-            marginLeft: "4px",
-            transition: "background-color 0.35s cubic-bezier(0.22,1,0.36,1), color 0.35s cubic-bezier(0.22,1,0.36,1)",
-          }}
+          className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-bold bg-app-text dark:bg-app-text-dark text-app-bg dark:text-app-bg-dark cursor-pointer transition-colors ml-1"
         >
           Hire Me <FiArrowRight size={11} />
         </button>
       </div>
-    </header>
+    </motion.header>
   );
 }
 

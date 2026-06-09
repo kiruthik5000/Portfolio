@@ -89,7 +89,7 @@ const achievements = [
   {
     icon: <FaTrophy />,
     title: "Competitive Programming",
-    text: <>Solved <strong className="text-zinc-900 dark:text-zinc-100 font-semibold">700+</strong> problems on <a href="https://leetcode.com/u/KIRUTHIKVAIRAVEL/" target="_blank" rel="noopener noreferrer" className="text-[var(--accent)] hover:underline">LeetCode</a> and other platforms like HackerRank.</>,
+    text: <>Solved <strong className="text-zinc-900 dark:text-zinc-100 font-semibold">700+</strong> problems on <a href="https://leetcode.com/u/KIRUTHIKVAIRAVEL/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">LeetCode</a> and other platforms like HackerRank.</>,
     period: "2023 – Present",
   },
   {
@@ -115,9 +115,12 @@ const Card = ({ children, className = "" }) => (
                 hover:border-zinc-300 dark:hover:border-zinc-700
                 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_8px_32px_rgba(0,0,0,0.4)]
                 transition-all duration-300
-                card-shimmer
+                relative overflow-hidden
+                group
                 ${className}`}
   >
+    {/* Simple shimmer sweep effect with Tailwind */}
+    <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 pointer-events-none bg-gradient-to-r from-transparent via-white/5 to-transparent z-10" />
     {children}
   </div>
 );
@@ -132,8 +135,8 @@ const Tag = ({ label, delay = 0 }) => {
                    border border-zinc-200 dark:border-zinc-800
                    bg-white dark:bg-zinc-900/50
                    text-zinc-600 dark:text-zinc-400
-                   hover:border-[var(--accent-border)] hover:text-[var(--accent)] hover:bg-[var(--accent-dim)]
-                   dark:hover:border-[var(--accent-border)] dark:hover:text-[var(--accent)] dark:hover:bg-[var(--accent-dim)]
+                   hover:border-accent-border hover:text-accent hover:bg-accent-dim
+                   dark:hover:border-accent-border dark:hover:text-accent dark:hover:bg-accent-dim
                    hover:scale-105
                    transition-all duration-200 cursor-default select-none"
       >
@@ -186,7 +189,7 @@ const AboutMe = () => (
                     <p className="text-[14px] text-zinc-500 dark:text-zinc-400 leading-relaxed mb-2">{item.description}</p>
                     <div className="inline-flex items-center gap-1.5">
                       <span className="text-[14px] text-zinc-400 dark:text-zinc-500">{item.metric}:</span>
-                      <span className="text-[17px] font-bold text-[var(--accent)]">{item.value}</span>
+                      <span className="text-[17px] font-bold text-accent">{item.value}</span>
                     </div>
                   </HideOnOutOfView>
                 </div>
@@ -236,7 +239,7 @@ const AboutMe = () => (
                                     border border-zinc-200 dark:border-zinc-800
                                     bg-zinc-50 dark:bg-zinc-900/60
                                     text-zinc-400 dark:text-zinc-500 text-base
-                                    transition-transform duration-300 hover:scale-110 hover:text-[var(--accent)]">
+                                    transition-transform duration-300 hover:scale-110 hover:text-accent">
                       {item.icon}
                     </div>
                   </HideOnOutOfView>

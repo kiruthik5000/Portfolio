@@ -1,224 +1,57 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
 
-/* Tailwind v4: class-based dark mode */
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  
+  --color-app-bg: #fafaf7;
+  --color-app-bg-dark: #09090b;
+  
+  --color-app-text: #111118;
+  --color-app-text-dark: #f4f4f5;
+  
+  --color-app-accent: #2563eb;
+  --color-app-accent-dark: #3b82f6;
+  
+  --color-app-border: #e2e2de;
+  --color-app-border-dark: #27272a;
 
-/* ═══════════════════════════════════════════════════════════
-   THEME DEFINITIONS
-═══════════════════════════════════════════════════════════ */
-:root {
-  /* Light Mode — Warm Paper */
-  --bg:              #fafaf7;
-  --bg-elevated:     #ffffff;
-  --bg-overlay:      rgba(250, 250, 247, 0.85);
-  --text:            #111118;
-  --text-secondary:  #4a4a54;
-  --text-muted:      #8a8a96;
-  --border:          #e2e2de;
-  --border-subtle:   #eeede9;
-  --surface:         #ffffff;
-  --surface-2:       #f5f4f0;
-  --dot-color:       rgba(20, 20, 30, 0.055);
-  --accent:          #2563eb;
-  --accent-hover:    #1d4ed8;
-  --accent-dim:      rgba(37, 99, 235, 0.08);
-  --accent-border:   rgba(37, 99, 235, 0.2);
-  --green:           #16a34a;
-  --scroll-thumb:    #d4d2cc;
-  --scroll-track:    #fafaf7;
-  --shadow-sm:       0 1px 3px rgba(0,0,0,0.06);
-  --shadow:          0 4px 16px rgba(0,0,0,0.08);
-  --shadow-lg:       0 20px 60px rgba(0,0,0,0.12);
-  --nav-bg:          rgba(250,250,247,0.82);
+  --color-accent: var(--color-app-accent);
+  --color-accent-border: rgba(37, 99, 235, 0.2);
+  --color-accent-dim: rgba(37, 99, 235, 0.08);
 
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --ease:      cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-in:   cubic-bezier(0.4, 0, 1, 1);
-  --ease-out:  cubic-bezier(0, 0, 0.2, 1);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  @keyframes marqueeScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-33.333%); }
+  }
+}
+
+@layer utilities {
+  .animate-marquee {
+    animation: marqueeScroll 22s linear infinite;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-app-bg text-app-text dark:bg-app-bg-dark dark:text-app-text-dark;
+    font-family: var(--font-sans);
+  }
 }
 
 .dark {
-  /* Dark Mode — Pitch Black */
-  --bg:              #09090b;
-  --bg-elevated:     #0f0f12;
-  --bg-overlay:      rgba(9, 9, 11, 0.82);
-  --text:            #f4f4f5;
-  --text-secondary:  #a1a1aa;
-  --text-muted:      #71717a;
-  --border:          #27272a;
-  --border-subtle:   #1c1c1f;
-  --surface:         #111113;
-  --surface-2:       #18181b;
-  --dot-color:       rgba(255, 255, 255, 0.028);
-  --accent:          #3b82f6;
-  --accent-hover:    #60a5fa;
-  --accent-dim:      rgba(59, 130, 246, 0.12);
-  --accent-border:   rgba(59, 130, 246, 0.25);
-  --green:           #22c55e;
-  --scroll-thumb:    #3f3f46;
-  --scroll-track:    #09090b;
-  --shadow-sm:       0 1px 3px rgba(0,0,0,0.4);
-  --shadow:          0 4px 20px rgba(0,0,0,0.5);
-  --shadow-lg:       0 24px 64px rgba(0,0,0,0.7);
-  --nav-bg:          rgba(9, 9, 11, 0.78);
+  --color-accent: var(--color-app-accent-dark);
+  --color-accent-border: rgba(59, 130, 246, 0.25);
+  --color-accent-dim: rgba(59, 130, 246, 0.12);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   BASE RESET
-═══════════════════════════════════════════════════════════ */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-/* ── Global smooth theme crossfade ── */
-/* Applies only to theme-sensitive properties so hover/animations are unaffected */
-:root {
-  --theme-transition: background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                      color            0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                      border-color     0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                      box-shadow       0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                      fill             0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                      stroke           0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-*:not([class*="transition"]):not([class*="animate"]):not([class*="duration"]) {
-  transition: var(--theme-transition);
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-html, body, #root {
-  width: 100%;
-  min-height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.65;
-  font-weight: 400;
-  color: var(--text);
-  background-color: var(--bg);
-
-  /* Premium dot-grid background */
-  background-image:
-    radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-attachment: fixed;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-
-  /* Smooth theme switch */
-  transition: var(--theme-transition);
-}
-
-a { color: inherit; text-decoration: none; }
-img, video { display: block; max-width: 100%; }
-ul { list-style: none; margin: 0; padding: 0; }
-button { cursor: pointer; font-family: inherit; }
-
-
-/* ═══════════════════════════════════════════════════════════
-   SCROLLBAR
-═══════════════════════════════════════════════════════════ */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--scroll-track); }
-::-webkit-scrollbar-thumb {
-  background: var(--scroll-thumb);
-  border-radius: 10px;
-  transition: background 0.2s;
-}
-::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-
-/* ═══════════════════════════════════════════════════════════
-   SECTION DIVIDER
-═══════════════════════════════════════════════════════════ */
 .section-divider {
-  height: 1px;
-  background: var(--border);
-  max-width: 72%;
-  margin: 0 auto;
-  transition: background 0.3s;
+  @apply h-[1px] max-w-[72%] mx-auto bg-app-border dark:bg-app-border-dark transition-colors duration-300;
 }
-
-/* ═══════════════════════════════════════════════════════════
-   KEYFRAMES — ENTRY ANIMATIONS
-═══════════════════════════════════════════════════════════ */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scaleUp {
-  from { opacity: 0; transform: scale(0.92); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-/* Float animation for portrait */
-@keyframes floatPortrait {
-  0%, 100% { transform: translateY(0px) rotate(1.5deg); }
-  50%       { transform: translateY(-10px) rotate(0.5deg); }
-}
-
-/* Pulsing green dot */
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.6; transform: scale(0.85); }
-}
-
-/* Blinking cursor */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-
-/* Shimmer on hover */
-@keyframes shimmer {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-/* Nav slide down on mount */
-@keyframes navReveal {
-  from { opacity: 0; transform: translateY(-24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   ANIMATION UTILITY CLASSES
-═══════════════════════════════════════════════════════════ */
-.animate-float    { animation: floatPortrait 7s ease-in-out infinite; }
-.animate-pulse-dot { animation: pulse 2s ease-in-out infinite; }
-.animate-blink    { animation: blink 1.1s step-end infinite; }
-.animate-nav      { animation: navReveal 0.7s var(--ease) both; }
-
-/* Staggered hero entry */
-.hero-1 { animation: fadeUp 0.7s var(--ease) 0.05s both; }
-.hero-2 { animation: fadeUp 0.7s var(--ease) 0.18s both; }
-.hero-3 { animation: fadeUp 0.7s var(--ease) 0.30s both; }
-.hero-4 { animation: fadeUp 0.7s var(--ease) 0.42s both; }
-.hero-5 { animation: fadeUp 0.7s var(--ease) 0.54s both; }
-.hero-6 { animation: fadeUp 0.7s var(--ease) 0.66s both; }
-.hero-img { animation: scaleUp 0.9s var(--ease) 0.6s both; }
 
 /* ═══════════════════════════════════════════════════════════
    PROJECT CARD — INDUSTRY ANIMATIONS
@@ -238,7 +71,7 @@ button { cursor: pointer; font-family: inherit; }
   background: conic-gradient(
     from var(--angle, 0deg),
     transparent 0deg,
-    var(--accent) 60deg,
+    var(--color-accent) 60deg,
     transparent 120deg
   );
   -webkit-mask:
@@ -265,68 +98,4 @@ button { cursor: pointer; font-family: inherit; }
 
 @keyframes spin-angle {
   to { --angle: 360deg; }
-}
-
-/* Shimmer sweep on hover */
-.project-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(
-    115deg,
-    transparent 30%,
-    rgba(255,255,255,0.055) 50%,
-    transparent 70%
-  );
-  transform: translateX(-100%);
-  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.project-card:hover::after {
-  transform: translateX(100%);
-}
-
-/* Legacy shimmer (keep for other uses) */
-.card-shimmer {
-  position: relative;
-  overflow: hidden;
-}
-.card-shimmer::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    105deg,
-    transparent 35%,
-    rgba(255,255,255,0.06) 50%,
-    transparent 65%
-  );
-  transform: translateX(-100%);
-  transition: transform 0.6s var(--ease);
-}
-.card-shimmer:hover::after {
-  transform: translateX(100%);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   FOCUS RING
-═══════════════════════════════════════════════════════════ */
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 6px;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   REDUCED MOTION
-═══════════════════════════════════════════════════════════ */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
 }

@@ -5,10 +5,11 @@ import Home from "./components/Home";
 import Projects from "./components/Projects";
 import HideOnOutOfView from "./components/utils/HideOnOutOfView";
 import { FiGithub, FiLinkedin, FiMail, FiHeart } from "react-icons/fi";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   return (
-    <>
+    <AnimatePresence mode="wait">
       <Topbar />
 
       <main className="relative z-10">
@@ -31,7 +32,7 @@ function App() {
         <HideOnOutOfView direction="up">
           <section
             id="contact"
-            className="min-h-[60vh] flex items-center justify-center px-6 py-20"
+            className="min-h-[60vh] flex items-center justify-center px-6 py-24 md:py-32"
           >
             <div className="max-w-lg w-full text-center space-y-6">
               {/* Label */}
@@ -42,7 +43,7 @@ function App() {
               {/* Headline */}
               <h2 className="text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50 leading-tight">
                 Got a project in mind?<br />
-                <span className="text-[var(--accent)]">Let's talk.</span>
+                <span className="text-accent">Let's talk.</span>
               </h2>
 
               {/* Sub-text */}
@@ -56,12 +57,8 @@ function App() {
                 <a
                   href="mailto:kiruthikvairam5000@gmail.com"
                   className="flex items-center gap-2 px-6 py-3 rounded-full text-[12px] font-bold
-                             transition-all duration-200 shadow-sm hover:opacity-80 active:scale-95"
-                  style={{
-                    backgroundColor: "var(--text)",
-                    color: "var(--bg)",
-                    border: "1px solid transparent",
-                  }}
+                             bg-app-text dark:bg-app-text-dark text-app-bg dark:text-app-bg-dark
+                             transition-all duration-200 shadow-sm hover:opacity-80 active:scale-95 border border-transparent"
                 >
                   <FiMail size={14} />
                   Send an Email
@@ -98,8 +95,8 @@ function App() {
       </main>
 
       {/* ─── FOOTER ─── */}
-      <footer className="border-t border-zinc-200 dark:border-zinc-800/60 py-7 px-6">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <footer className="border-t border-zinc-200 dark:border-zinc-800/60 py-10 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[11px] text-zinc-400 dark:text-zinc-500">
             Designed & Built with{" "}
             <FiHeart className="inline w-3 h-3 text-red-400 dark:text-red-500 mx-0.5 align-[-1px]" />{" "}
@@ -110,7 +107,7 @@ function App() {
           </p>
         </div>
       </footer>
-    </>
+    </AnimatePresence>
   );
 }
 

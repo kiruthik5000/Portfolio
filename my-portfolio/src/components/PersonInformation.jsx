@@ -21,7 +21,7 @@ const PersonInformation = () => (
       >
         <Icon
           size={13}
-          className="text-zinc-400 dark:text-zinc-500 group-hover:text-[var(--accent)] transition-colors duration-200 shrink-0"
+          className="text-zinc-400 dark:text-zinc-500 group-hover:text-accent transition-colors duration-200 shrink-0"
         />
         <span className="text-[11px] font-medium text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-800 dark:group-hover:text-zinc-200 transition-colors duration-200">
           {value}

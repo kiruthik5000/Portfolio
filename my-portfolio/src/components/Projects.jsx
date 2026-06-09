@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { motion } from 'framer-motion';
 import Title from './utils/Title';
 import HideOnOutOfView from './utils/HideOnOutOfView';
 import { FiGithub, FiExternalLink } from 'react-icons/fi';
@@ -131,15 +132,17 @@ function useTilt(strength = 10) {
   return { cardRef, handleMove, handleLeave };
 }
 
+/* Map tech name → icon */
 const ProjectCard = ({ project, index }) => {
   const { cardRef, handleMove, handleLeave } = useTilt(6);
 
   return (
     <HideOnOutOfView delay={index * 100} direction="up" duration={800}>
-      <div
+      <motion.div
         ref={cardRef}
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
+        whileHover={{ borderColor: 'var(--color-accent)' }}
         className="project-card group flex flex-col overflow-hidden rounded-2xl
                    border border-zinc-200 dark:border-zinc-800/60
                    bg-white/70 dark:bg-zinc-900/20
@@ -178,7 +181,7 @@ const ProjectCard = ({ project, index }) => {
             <div className="flex items-center gap-2.5">
               <span className="text-xl select-none leading-none">{project.emoji}</span>
               <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 leading-snug
-                             group-hover:text-[var(--accent)] transition-colors duration-300">
+                             group-hover:text-accent transition-colors duration-300">
                 {project.name}
               </h3>
             </div>
@@ -200,8 +203,8 @@ const ProjectCard = ({ project, index }) => {
                              border border-zinc-200 dark:border-zinc-800
                              bg-white dark:bg-zinc-900/60
                              text-zinc-600 dark:text-zinc-400
-                             hover:border-[var(--accent-border)] hover:text-[var(--accent)] hover:bg-[var(--accent-dim)]
-                             dark:hover:border-[var(--accent-border)] dark:hover:text-[var(--accent)] dark:hover:bg-[var(--accent-dim)]
+                             hover:border-accent-border hover:text-accent hover:bg-accent-dim
+                             dark:hover:border-accent-border dark:hover:text-accent dark:hover:bg-accent-dim
                              hover:scale-105
                              transition-all duration-200 cursor-default select-none"
                 >
@@ -251,7 +254,7 @@ const ProjectCard = ({ project, index }) => {
             </div>
           </HideOnOutOfView>
         </div>
-      </div>
+      </motion.div>
     </HideOnOutOfView>
   );
 };
