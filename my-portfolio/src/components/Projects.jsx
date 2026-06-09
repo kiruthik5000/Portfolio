@@ -6,7 +6,8 @@ import {
   SiReact, SiSpring, SiMysql,
   SiTailwindcss, SiExpress, SiMongodb,
   SiNodedotjs, SiPython, SiTensorflow,
-  SiScikitlearn, SiDatabricks  
+  SiScikitlearn, SiDatabricks,  
+  SiFastapi, SiHtml5, SiCss3, SiJavascript,
 } from 'react-icons/si';
 
 /* Map tech name → icon */
@@ -23,17 +24,30 @@ const TECH_ICONS = {
   "TensorFlow": <SiTensorflow size={14} />,
   "Scikit-learn": <SiScikitlearn size={14} />,
   "FAISS": <SiDatabricks size={14} />,
+  "HTML": <SiHtml5 size={14} />,
+  "CSS": <SiCss3 size={14} />,
+  "JavaScript": <SiJavascript size={14} />,
+  "FASTapi": <SiFastapi size={14} />,
 };
 
 const projects = [
   {
-    name: "Blog Post Management",
-    emoji: "📝",
-    description: "Full-stack blog system with CRUD, auth, and responsive interface.",
-    image: "/blog_post.png",
-    technologies: ["React", "Spring Boot", "MySQL"],
-    githubUrl: "https://github.com/iamneo-production/d2cc9c72-613d-4bc8-9a7e-2e30e920eaa7-a130de1c-fce0-4d3b-9c68-315265bea755/tree/SRC-Branch",
+    name: "Custom RAG Chatbot",
+    emoji: "🤖",
+    description: "Retrieval-Augmented Generation chatbot that answers queries from uploaded documents.",
+    image: "/RAG.png",
+    technologies: ["Python", "TensorFlow", "FAISS", "FASTapi"],
+    githubUrl: "https://github.com/kiruthik5000/RAG",
     liveUrl: null,
+  },
+  {
+  name: "WGAN-Based Intrusion Detection System",
+  emoji: "🛡️",
+  description: "An anomaly-based Intrusion Detection System that leverages Wasserstein GAN (WGAN) to learn benign network traffic patterns and detect anomalous activities. The system further employs an XGBoost classifier to identify and categorize detected attacks into specific threat types, enabling accurate and intelligent network security monitoring.",
+  image: "/ids.png",
+  technologies: ["Python", "WGAN", "XGBoost", "TensorFlow", "Scikit-learn", "FASTapi"],
+  githubUrl: "https://github.com/kiruthik5000/Capstone_project",
+  liveUrl: null,
   },
   {
     name: "AI Interview Preparation Platform",
@@ -41,7 +55,7 @@ const projects = [
     description: "AI-powered interview preparation platform featuring role-based mock interviews, real-time feedback, aptitude and coding assessments, personalized learning paths, and performance analytics to help candidates excel in technical and HR interviews.",
     image: "/ai-interview.png",
     technologies: ["React", "Spring Boot", "MySQL", "OpenAI API"],
-    githubUrl: "YOUR_GITHUB_URL",
+    githubUrl: "https://github.com/kiruthik5000/BehaviorTracker",
     liveUrl: null,
   },
   {
@@ -62,16 +76,7 @@ const projects = [
     githubUrl: "https://github.com/kiruthik5000/DineDirectory",
     liveUrl: null,
   },
-  {
-    name: "Food Image Classifier",
-    emoji: "🍱",
-    description: "Deep learning CNN classifier trained with transfer learning for food recognition.",
-    image: "/food_image.png",
-    technologies: ["Python", "TensorFlow", "Scikit-learn"],
-    githubUrl: "https://github.com/kiruthik5000/FoodImageClassification",
-    liveUrl: null,
-  },
-  {
+   {
     name: "Tetris Game",
     emoji: "🎮",
     description: "Classic Tetris with smooth animations, score tracking, and increasing difficulty.",
@@ -81,14 +86,23 @@ const projects = [
     liveUrl: null,
   },
   {
-    name: "Custom RAG Chatbot",
-    emoji: "🤖",
-    description: "Retrieval-Augmented Generation chatbot that answers queries from uploaded documents.",
-    image: "/RAG.png",
-    technologies: ["Python", "TensorFlow", "FAISS"],
-    githubUrl: "https://github.com/kiruthik5000/RAG",
+    name: "Food Image Classifier",
+    emoji: "🍱",
+    description: "Deep learning CNN classifier trained with transfer learning for food recognition.",
+    image: "/food_image.png",
+    technologies: ["Python", "TensorFlow", "Scikit-learn", "HTML5", "CSS3", "JavaScript"],
+    githubUrl: "https://github.com/kiruthik5000/FoodImageClassification",
     liveUrl: null,
   },
+  {
+    name: "Blog Post Management",
+    emoji: "📝",
+    description: "Full-stack blog system with CRUD, auth, and responsive interface.",
+    image: "/blog_post.png",
+    technologies: ["React", "Spring Boot", "MySQL"],
+    githubUrl: "https://github.com/iamneo-production/d2cc9c72-613d-4bc8-9a7e-2e30e920eaa7-a130de1c-fce0-4d3b-9c68-315265bea755/tree/SRC-Branch",
+    liveUrl: null,  
+  }  
 ];
 
 /* 3D magnetic tilt hook */
