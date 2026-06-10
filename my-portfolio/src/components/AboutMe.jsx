@@ -34,7 +34,11 @@ const SKILL_ICONS = {
   "VS Code":               <VscCode       size={15} />,
   "Intelij":               <SiIntellijidea size={15}/>
 };
-
+const certificate = [
+  "https://www.skills.google/public_profiles/c98812c0-2426-4125-889d-a49de5117671/badges/14141433",
+  "https://www.skills.google/public_profiles/c98812c0-2426-4125-889d-a49de5117671/badges/14157060", 
+  "https://www.skills.google/public_profiles/c98812c0-2426-4125-889d-a49de5117671/badges/20759068"
+]
 /* ── DATA ── */
 const education = [
   {
@@ -101,7 +105,7 @@ const achievements = [
   {
     icon: <FaCertificate />,
     title: "Certifications",
-    text: <>Certified on <strong className="text-zinc-900 dark:text-zinc-100 font-semibold">Google Cloud Platform, Infosys, NPTEL</strong> across cloud, data science, and software engineering.</>,
+    text: <>Certified on <a className="text-accent hover:underline dark:text-zinc-100" href={certificate[0]} target="_blank">Google Cloud Platform, Infosys, NPTEL</a> across cloud, data science, and software engineering.</>,
     period: "Ongoing",
   },
 ];
