@@ -36,7 +36,7 @@ function Topbar() {
       lastScrollY.current = y;
       setScrolled(y > 24);
 
-      const ids = ["home", "about", "projects", "contact"];
+      const ids = ["home", "about", "projects", "certifications", "contact"];
       for (const id of ids) {
         const el = document.getElementById(id);
         if (!el) continue;
@@ -55,7 +55,7 @@ function Topbar() {
   const scrollTo = (id) =>
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
-  const navItems = ["home", "about", "projects", "contact"];
+  const navItems = ["home", "about", "projects", "certifications", "contact"];
 
   return (
     <motion.header

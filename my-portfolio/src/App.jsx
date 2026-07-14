@@ -3,6 +3,7 @@ import Topbar from "./components/Topbar";
 import AboutMe from "./components/AboutMe";
 import Home from "./components/Home";
 import Projects from "./components/Projects";
+import Certifications from "./components/Certifications";
 import HideOnOutOfView from "./components/utils/HideOnOutOfView";
 import { FiGithub, FiLinkedin, FiMail, FiHeart } from "react-icons/fi";
 import { AnimatePresence } from "framer-motion";
@@ -25,6 +26,11 @@ function App() {
 
         {/* ─── PROJECTS ─── */}
         <Projects />
+
+        <div className="section-divider" />
+
+        {/* ─── CERTIFICATIONS ─── */}
+        <Certifications />
 
         <div className="section-divider" />
 
